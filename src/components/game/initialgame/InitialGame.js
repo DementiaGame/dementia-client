@@ -82,6 +82,8 @@ const InitialGame = () => {
         <h1 className="title">초성 퀴즈</h1>
         <button className="profile-button">⚙️</button>
       </header>
+      <div className="header-placeholder"></div>{" "}
+      {/* 헤더 공간 확보를 위한 빈 div */}
       <main className="main">
         <h2 className="subtitle">원하는 게임 주제를 고르세요!</h2>
         <div className="reward">

@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  font-family: "Happy";
+  background-color: #f7f7f7; /* 아주 살짝 회색 배경 */
+  overflow: hidden; /* 스크롤 숨기기 */
+}
+
+.game-main {
+  max-width: 400px; /* 핸드폰 크기로 고정 */
+  margin: 0 auto;
+  height: 100vh; /* 전체 화면 높이 */
+  overflow: hidden; /* 스크롤 숨기기 */
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 400px; /* 핸드폰 크기로 고정 */
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.header-icon {
+  font-size: 24px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.date-title {
+  text-align: center;
+  margin-top: 60px; /* 헤더 공간 확보 */
+}
+
+.date {
+  font-size: 23px;
+  font-family: "Happy";
+  color: #888;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.title {
+  font-family: "Happy Bold";
+  font-size: 50px;
+  text-align: left;
+}
+
+.main {
+  text-align: center;
+  padding: 0 20px;
+  flex-grow: 1;
+  overflow-y: auto; /* 세로 스크롤 허용 */
+}
+
+.game-card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.game-card.selected {
+  border: 2px solid #ff7f00;
+}
+
+.icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.game-info {
+  text-align: left;
+}
+
+.game-time {
+  font-size: 14px;
+  color: #888;
+}
+
+.game-title {
+  font-family: "Happy Bold";
+  font-size: 25px;
+}
+
+.arrow-icon {
+  font-size: 40px;
+  color: #ff7f00;
+}
