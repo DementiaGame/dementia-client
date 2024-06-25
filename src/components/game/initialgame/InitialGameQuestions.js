@@ -20,6 +20,8 @@ const InitialGameQuestions = () => {
   const [timer, setTimer] = useState(30);
   const [error, setError] = useState(null);
   const [showInput, setShowInput] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
 
   useEffect(() => {
@@ -58,16 +60,20 @@ const InitialGameQuestions = () => {
 
   const handleSubmitAnswer = () => {
     if (answer === questions[currentQuestionIndex]?.answerWord) {
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       setTotalCorrectAnswers((prev) => prev + 1);
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       setAnswer("");
       setTimer(30); // Reset timer for next question
       setRemainingLives(3); // Reset lives for next question
     } else {
-      setRemainingLives((prevLives) => prevLives - 1);
-      if (remainingLives <= 1) {
-        handleSkipQuestion();
-      }
+      setRemainingLives((prevLives) => {
+        if (prevLives - 1 <= 0) {
+          handleSkipQuestion();
+          return 3; // Reset lives for next question
+        } else {
+          return prevLives - 1;
+        }
+      });
     }
   };
 
@@ -76,6 +82,62 @@ const InitialGameQuestions = () => {
     setAnswer("");
     setTimer(30); // Reset timer for next question
     setRemainingLives(3); // Reset lives for next question
+  };
+
+  const handleSpeakClick = () => {
+    setModalType("speak");
+    setShowModal(true);
+  };
+
+  const handleWriteClick = () => {
+    setModalType("write");
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const renderModalContent = () => {
+    if (modalType === "speak") {
+      return (
+        <div className="modal-content">
+          <button className="close-button" onClick={closeModal}>
+            <FaTimes />
+          </button>
+          <div className="modal-icon">
+            <FaMicrophone />
+          </div>
+          <div className="modal-body">
+            <h2>정답을 말하세요.</h2>
+            <p>사과</p>
+            <button className="retry-button">다시 말하기</button>
+            <button className="submit-button" onClick={closeModal}>
+              완료
+            </button>
+          </div>
+        </div>
+      );
+    } else if (modalType === "write") {
+      return (
+        <div className="modal-content">
+          <button className="close-button" onClick={closeModal}>
+            <FaTimes />
+          </button>
+          <div className="modal-icon">
+            <FaPen />
+          </div>
+          <div className="modal-body">
+            <h2>정답을 입력하세요.</h2>
+            <input type="text" placeholder="정답 입력" />
+            <button className="retry-button">다시 쓰기</button>
+            <button className="submit-button" onClick={closeModal}>
+              완료
+            </button>
+          </div>
+        </div>
+      );
+    }
   };
 
   if (questions.length === 0) {
@@ -122,34 +184,21 @@ const InitialGameQuestions = () => {
           <button className="pass-button" onClick={handleSkipQuestion}>
             <FaAngleRight /> 패스
           </button>
-          <button
-            className="speak-button"
-            onClick={() => console.log("말하기")}
-          >
+          <button className="speak-button" onClick={handleSpeakClick}>
             <FaMicrophone /> 말하기
           </button>
-          <button
-            className="write-button"
-            onClick={() => setShowInput(!showInput)}
-          >
+          <button className="write-button" onClick={handleWriteClick}>
             <FaPen /> 쓰기
           </button>
-          {showInput && (
-            <div className="answer-input">
-              <input
-                type="text"
-                value={answer}
-                onChange={handleAnswerChange}
-                placeholder="정답을 입력하세요"
-              />
-              <button onClick={handleSubmitAnswer}>
-                <FaPen /> 쓰기
-              </button>
-            </div>
-          )}
         </div>
         {error && <p className="error">Error: {error}</p>}
       </main>
+      {showModal && (
+        <div className="modal">
+          <div className="modal-background" onClick={closeModal}></div>
+          <div className="modal-container">{renderModalContent()}</div>
+        </div>
+      )}
     </div>
   );
 };

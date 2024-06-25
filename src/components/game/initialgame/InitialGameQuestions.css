@@ -1,12 +1,13 @@
 body {
   margin: 0;
-  font-family: "Happy", sans-serif;
+  font-family: "Happy";
   background-color: #f7f7f7; /* 아주 살짝 회색 배경 */
 }
 
 .initial-game-questions {
   max-width: 400px; /* 핸드폰 크기로 고정 */
   margin: 0 auto;
+  height: 100vh; /* 전체 화면 높이 */
 }
 
 .header {
@@ -40,7 +41,8 @@ body {
   color: white;
   border-radius: 10px;
   padding: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-top: 80px;
   position: relative;
   height: 200px; /* 칠판 고정 높이 */
   display: flex;
@@ -50,12 +52,13 @@ body {
 }
 
 .topic-name {
-  font-size: 18px;
+  font-size: 30px;
   margin-bottom: 10px;
+  font-family: "Happy Bolder";
 }
 
 .consonant-quiz {
-  font-size: 48px;
+  font-size: 40px;
   font-family: "Happy Bolder";
 }
 
@@ -159,4 +162,86 @@ body {
   color: red;
   font-family: "Happy";
   font-size: 16px;
+}
+
+/* 모달 스타일 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 50%; /* 모달 창 크기 조정 */
+  max-width: 400px;
+  position: absolute;
+  text-align: center;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.modal-icon {
+  font-size: 48px;
+  color: #ff7f00;
+  margin-bottom: 20px;
+}
+
+.modal-body {
+  font-family: "Happy Bold";
+}
+
+.modal-body h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.modal-body p {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.retry-button {
+  background: white;
+  border: 2px solid #ff7f00;
+  color: #ff7f00;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.retry-button:active {
+  background: #ff7f00;
+  color: white;
+}
+
+.submit-button {
+  background: #ff7f00;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
 }
