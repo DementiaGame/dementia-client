@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./InitialGame.css";
 import {
   FaAppleAlt,
@@ -18,6 +19,7 @@ import {
 } from "react-icons/fa";
 
 const PAGE_SIZE = 4; // 페이지당 항목 수
+const userId = 1; // 임시 userId
 
 const iconMap = {
   과일: <FaAppleAlt color="#FF6347" />,
@@ -40,6 +42,7 @@ const InitialGame = () => {
   const [topics, setTopics] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -57,8 +60,7 @@ const InitialGame = () => {
   }, []);
 
   const handleTopicClick = (topic) => {
-    console.log(`Topic ${topic} clicked`);
-    // TODO: 주제 클릭 시 필요한 동작 추가
+    navigate(`/questions/${topic.topic}/${userId}`);
   };
 
   const handleNextPage = () => {
@@ -91,7 +93,7 @@ const InitialGame = () => {
             <div
               key={index}
               className="topic-card"
-              onClick={() => handleTopicClick(topic.topic)}
+              onClick={() => handleTopicClick(topic)}
             >
               <div className="icon">
                 {iconMap[topic.topic] || iconMap["기본"]}
