@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GameMain.css";
-import {
-  FaChalkboardTeacher,
-  FaBrain,
-  FaUsers,
-  FaAngleRight,
-  FaCog,
-  FaUserCircle,
-} from "react-icons/fa";
+import firstIcon from "./resources/first.png"; // 첫 번째 아이콘
+import secondIcon from "./resources/second.png"; // 두 번째 아이콘
+import thirdIcon from "./resources/third.png"; // 세 번째 아이콘
+import { FaAngleRight, FaCog, FaUserCircle } from "react-icons/fa";
 
 const GameMain = () => {
   const [selectedGame, setSelectedGame] = useState(null);
@@ -38,7 +34,7 @@ const GameMain = () => {
       </header>
       <div className="date-title">
         <div className="date">{dateString}</div>
-        <h1 className="title">게임 선택</h1>
+        <h1 className="title">게임을 선택해주세요</h1>
       </div>
       <main className="main">
         <div
@@ -48,7 +44,7 @@ const GameMain = () => {
           onClick={() => handleGameClick("초성게임")}
         >
           <div className="icon-wrapper">
-            <FaChalkboardTeacher className="icon" />
+            <img src={firstIcon} alt="초성게임" className="icon" />
             <div className="game-info">
               <div className="game-time">단어를 맞추는</div>
               <div className="game-title">초성게임</div>
@@ -63,7 +59,7 @@ const GameMain = () => {
           onClick={() => handleGameClick("기억력 게임")}
         >
           <div className="icon-wrapper">
-            <FaBrain className="icon" />
+            <img src={secondIcon} alt="기억력 게임" className="icon" />
             <div className="game-info">
               <div className="game-time">같은 그림을 찾는</div>
               <div className="game-title">기억력 게임</div>
@@ -78,7 +74,7 @@ const GameMain = () => {
           onClick={() => handleGameClick("멀티 플레이어 게임")}
         >
           <div className="icon-wrapper">
-            <FaUsers className="icon" />
+            <img src={thirdIcon} alt="멀티 플레이어 게임" className="icon" />
             <div className="game-info">
               <div className="game-time">여러명이 즐기는</div>
               <div className="game-title">사칙연산 게임</div>
