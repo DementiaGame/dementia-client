@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./InitialGameQuestions.css";
 import {
   FaHeart,
@@ -23,8 +23,10 @@ const InitialGameQuestions = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(`Fetching questions for topic: ${topicName}`);
     axios
       .post(`http://13.209.160.116:8080/api/initial/questions/${userId}`, {
         topicName,
@@ -150,7 +152,7 @@ const InitialGameQuestions = () => {
     <div className="initial-game-questions">
       <header className="header">
         <h1 className="title">143 초성게임({topicName})</h1>
-        <button className="close-button">
+        <button className="close-button" onClick={() => navigate("/")}>
           <FaTimes />
         </button>
       </header>
