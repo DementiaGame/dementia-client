@@ -82,6 +82,21 @@ const GameMain = () => {
           </div>
           <FaAngleRight className="arrow-icon" />
         </div>
+        <div
+          className={`game-card ${
+            selectedGame === "멀티 플레이어 게임" ? "selected" : ""
+          }`}
+          onClick={() => handleGameClick("멀티 플레이어 게임")}
+        >
+          <div className="icon-wrapper">
+            <img src={thirdIcon} alt="멀티 플레이어 게임" className="icon" />
+            <div className="game-info">
+              <div className="game-time">혼자서 즐기는</div>
+              <div className="game-title">사칙연산 게임</div>
+            </div>
+          </div>
+          <FaAngleRight className="arrow-icon" />
+        </div>
       </main>
     </div>
   );
