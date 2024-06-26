@@ -3,9 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./InitialGame.css";
 import {
-  FaDog,
-  FaPaw,
-  FaHospital,
   FaGraduationCap,
   FaFutbol,
   FaCarrot,
@@ -21,6 +18,9 @@ import fruitIcon from "./resources/fruit.png";
 import earthIcon from "./resources/earth.png";
 import koreaIcon from "./resources/korea.png";
 import plantIcon from "./resources/plant.png";
+import sharkIcon from "./resources/shark.png";
+import hospitalIcon from "./resources/hospital.png";
+import animalIcon from "./resources/animal.png";
 
 const PAGE_SIZE = 4; // 페이지당 항목 수
 const userId = 2; // 임시 userId
@@ -31,9 +31,9 @@ const iconMap = {
   "국내 시, 군": <img src={koreaIcon} alt="국내 시, 군" className="icon" />,
   꽃: <img src={plantIcon} alt="꽃" className="icon" />,
   나무: <img src={plantIcon} alt="나무" className="icon" />,
-  동물1: <FaDog color="#DAA520" />,
-  동물2: <FaPaw color="#DAA520" />,
-  "병원, 약, 병": <FaHospital color="#FF4500" />,
+  "동물1(육지)": <img src={animalIcon} alt="동물 육지" className="icon" />,
+  "동물2(물)": <img src={sharkIcon} alt="동물 물" className="icon" />,
+  "병원,약,병": <img src={hospitalIcon} alt="병원 약국" className="icon" />,
   사자성어: <FaGraduationCap color="#8A2BE2" />,
   스포츠: <FaFutbol color="#000000" />,
   야채: <FaCarrot color="#FF8C00" />,
