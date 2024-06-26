@@ -4,9 +4,14 @@ body {
   background-color: #f7f7f7; /* 아주 살짝 회색 배경 */
 }
 
-.initial-game {
+.initial-game,
+.game-main {
   max-width: 400px; /* 핸드폰 크기로 고정 */
   margin: 0 auto;
+  height: 100vh; /* 전체 화면 높이 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -23,37 +28,47 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.header-placeholder {
-  height: 60px; /* 헤더의 높이와 일치하게 설정 */
-}
-
-.back-button,
-.profile-button {
-  border: none;
-  background: none;
+.header-icon {
   font-size: 24px;
   cursor: pointer;
 }
 
+.header-placeholder {
+  height: 60px; /* 헤더의 높이와 일치하게 설정 */
+}
+
+.date-title {
+  text-align: center;
+  margin-top: 60px; /* 헤더 공간 확보 */
+}
+
+.date {
+  font-size: 14px;
+  color: #777;
+}
+
 .title {
-  font-family: "Happy";
-  font-size: 18px;
+  font-family: "Happy Bold";
+  font-size: 24px;
 }
 
 .main {
   text-align: center;
   padding: 20px;
   padding-top: 80px; /* 헤더 높이 + 여유 공간 */
+  flex-grow: 1;
+  overflow-y: auto; /* 세로 스크롤 허용 */
 }
 
 .subtitle {
   font-family: "Happy Bold";
   font-size: 24px;
+  margin-top: 8px;
 }
 
 .reward {
   margin: 20px 0;
-  padding: 10px;
+  padding: 13px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -84,18 +99,25 @@ body {
 }
 
 .topic-card {
-  width: 40%; /* 한 줄에 두 개씩, 간격을 고려하여 계산 */
+  width: 42%; /* 한 줄에 두 개씩 배치 */
   background: white;
   border-radius: 10px;
-  padding: 10px;
+  padding: 15px 10px; /* 패딩 조정 */
   margin-bottom: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  text-align: center; /* 아이콘과 텍스트 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* 아이콘과 텍스트 중앙 정렬 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .icon {
-  font-size: 48px;
+  width: 55px; /* 아이콘 크기 */
+  height: 50px; /* 아이콘 크기 */
+  margin-top: 5px;
+  margin-bottom: 1px; /* 아이콘과 텍스트 간격 */
 }
 
 .details {
@@ -104,7 +126,7 @@ body {
 
 .details .title {
   font-family: "Happy Bold";
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .start-button {
@@ -112,8 +134,8 @@ body {
   padding: 10px;
   background: #ff7f00; /* 주황색 배경 */
   color: white;
-  font-family: "Happy Bolder";
-  font-size: 18px;
+  font-family: "Happy Bold";
+  font-size: 25px;
   border: none;
   border-radius: 5px;
   cursor: pointer;

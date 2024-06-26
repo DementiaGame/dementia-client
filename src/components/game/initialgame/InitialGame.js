@@ -3,9 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./InitialGame.css";
 import {
-  FaAppleAlt,
-  FaGlobe,
-  FaLeaf,
   FaDog,
   FaPaw,
   FaHospital,
@@ -17,16 +14,23 @@ import {
   FaQuestion,
   FaMedal,
 } from "react-icons/fa";
+import { FaAngleRight, FaCog, FaUserCircle } from "react-icons/fa";
+
+// 이미지 가져오기
+import fruitIcon from "./resources/fruit.png";
+import earthIcon from "./resources/earth.png";
+import koreaIcon from "./resources/korea.png";
+import plantIcon from "./resources/plant.png";
 
 const PAGE_SIZE = 4; // 페이지당 항목 수
-const userId = 1; // 임시 userId
+const userId = 2; // 임시 userId
 
 const iconMap = {
-  과일: <FaAppleAlt color="#FF6347" />,
-  국가: <FaGlobe color="#4682B4" />,
-  "국내 시, 군": <FaGlobe color="#228B22" />,
-  꽃: <FaLeaf color="#FF69B4" />,
-  나무: <FaLeaf color="#228B22" />,
+  과일: <img src={fruitIcon} alt="과일" className="icon" />,
+  국가: <img src={earthIcon} alt="국가" className="icon" />,
+  "국내 시, 군": <img src={koreaIcon} alt="국내 시, 군" className="icon" />,
+  꽃: <img src={plantIcon} alt="꽃" className="icon" />,
+  나무: <img src={plantIcon} alt="나무" className="icon" />,
   동물1: <FaDog color="#DAA520" />,
   동물2: <FaPaw color="#DAA520" />,
   "병원, 약, 병": <FaHospital color="#FF4500" />,
@@ -60,7 +64,19 @@ const InitialGame = () => {
   }, []);
 
   const handleTopicClick = (topic) => {
-    navigate(`/questions/${topic.topic}/${userId}`);
+    console.log(`Selecting topic: ${topic.topic}`);
+    axios
+      .post(`http://13.209.160.116:8080/api/initial/topics/${userId}/select`, {
+        topicName: topic.topic,
+      })
+      .then((response) => {
+        console.log("Topic selected successfully:", response.data);
+        navigate(`/questions/${topic.topic}/${userId}`);
+      })
+      .catch((error) => {
+        console.error("Error selecting topic:", error);
+        setError(error.message);
+      });
   };
 
   const handleNextPage = () => {
@@ -78,9 +94,8 @@ const InitialGame = () => {
   return (
     <div className="initial-game">
       <header className="header">
-        <button className="back-button">←</button>
-        <h1 className="title">초성 퀴즈</h1>
-        <button className="profile-button">⚙️</button>
+        <FaUserCircle className="header-icon" />
+        <FaCog className="header-icon" />
       </header>
       <div className="header-placeholder"></div>{" "}
       {/* 헤더 공간 확보를 위한 빈 div */}
