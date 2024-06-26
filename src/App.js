@@ -10,10 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<GameMain />} />
         <Route path="/initialgame" element={<InitialGame />} />
-        <Route
-          path="/questions/:topicName/:userId"
-          element={<InitialGameQuestions />}
-        />
+        <Route path="/questions/:userId" element={<InitialGameQuestions />} />
       </Routes>
     </Router>
   );

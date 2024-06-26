@@ -11,7 +11,7 @@ import {
   FaQuestion,
   FaMedal,
 } from "react-icons/fa";
-import { FaAngleRight, FaCog, FaUserCircle } from "react-icons/fa";
+import { FaCog, FaUserCircle } from "react-icons/fa";
 
 // 이미지 가져오기
 import fruitIcon from "./resources/fruit.png";
@@ -23,7 +23,7 @@ import hospitalIcon from "./resources/hospital.png";
 import animalIcon from "./resources/animal.png";
 
 const PAGE_SIZE = 4; // 페이지당 항목 수
-const userId = 2; // 임시 userId
+const userId = 1; // 임시 userId
 
 const iconMap = {
   과일: <img src={fruitIcon} alt="과일" className="icon" />,
@@ -63,20 +63,33 @@ const InitialGame = () => {
       });
   }, []);
 
-  const handleTopicClick = (topic) => {
+  const handleTopicClick = async (topic) => {
     console.log(`Selecting topic: ${topic.topic}`);
-    axios
-      .post(`http://13.209.160.116:8080/api/initial/topics/${userId}/select`, {
-        topicName: topic.topic,
-      })
-      .then((response) => {
-        console.log("Topic selected successfully:", response.data);
-        navigate(`/questions/${topic.topic}/${userId}`);
-      })
-      .catch((error) => {
-        console.error("Error selecting topic:", error);
-        setError(error.message);
+    try {
+      const response = await axios.post(
+        `http://13.209.160.116:8080/api/initial/topics/${userId}/select-and-questions`,
+        {
+          topicName: topic.topic,
+        }
+      );
+      console.log(
+        "Topic selected and questions fetched successfully:",
+        response.data
+      );
+
+      const { selectedTopic, questions } = response.data.data;
+
+      // 주제와 질문 데이터를 전달하여 navigate
+      navigate(`/questions/${selectedTopic.idx}`, {
+        state: { selectedTopic, questions },
       });
+    } catch (error) {
+      console.error(
+        "Error during topic selection or fetching questions:",
+        error
+      );
+      setError(error.message);
+    }
   };
 
   const handleNextPage = () => {
