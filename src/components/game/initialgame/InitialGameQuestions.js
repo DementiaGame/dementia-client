@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./InitialGameQuestions.css";
 import {
   FaHeart,
@@ -12,8 +11,11 @@ import {
 } from "react-icons/fa";
 
 const InitialGameQuestions = () => {
-  const { topicName, userId } = useParams();
-  const [questions, setQuestions] = useState([]);
+  const { userId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [questions, setQuestions] = useState(location.state?.questions || []);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [remainingLives, setRemainingLives] = useState(3);
@@ -23,23 +25,6 @@ const InitialGameQuestions = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(`Fetching questions for topic: ${topicName}`);
-    axios
-      .post(`http://13.209.160.116:8080/api/initial/questions/${userId}`, {
-        topicName,
-      })
-      .then((response) => {
-        console.log("Data fetched successfully:", response.data);
-        setQuestions(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching questions:", error);
-        setError(error.message);
-      });
-  }, [topicName, userId]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -131,9 +116,13 @@ const InitialGameQuestions = () => {
           </div>
           <div className="modal-body">
             <h2>정답을 입력하세요.</h2>
-            <input type="text" placeholder="정답 입력" />
+            <input
+              type="text"
+              placeholder="정답 입력"
+              onChange={handleAnswerChange}
+            />
             <button className="retry-button">다시 쓰기</button>
-            <button className="submit-button" onClick={closeModal}>
+            <button className="submit-button" onClick={handleSubmitAnswer}>
               완료
             </button>
           </div>
@@ -151,14 +140,14 @@ const InitialGameQuestions = () => {
   return (
     <div className="initial-game-questions">
       <header className="header">
-        <h1 className="title">143 초성게임({topicName})</h1>
+        <h1 className="title">143 초성게임({currentQuestion.topicName})</h1>
         <button className="close-button" onClick={() => navigate("/")}>
           <FaTimes />
         </button>
       </header>
       <main className="main">
         <div className="question-board">
-          <div className="topic-name">주제: {topicName}</div>
+          <div className="topic-name">주제: {currentQuestion.topicName}</div>
           <div className="consonant-quiz">{currentQuestion?.consonantQuiz}</div>
           <div className="timer">
             <div className="clock-icon">
