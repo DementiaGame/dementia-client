@@ -47,10 +47,11 @@ const InitialGameQuestions = () => {
   }, [browserSupportsSpeechRecognition]);
 
   useEffect(() => {
+    const cleanTranscript = (text) => text.replace(/\.$/, ""); // 마침표 제거
     if (finalTranscript !== "") {
-      setAnswer(finalTranscript);
+      setAnswer(cleanTranscript(finalTranscript));
     } else if (interimTranscript !== "") {
-      setAnswer(interimTranscript);
+      setAnswer(cleanTranscript(interimTranscript));
     }
   }, [interimTranscript, finalTranscript]);
 
