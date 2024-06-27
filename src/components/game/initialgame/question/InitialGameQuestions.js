@@ -11,6 +11,7 @@ import RemainingChances from "./RemainingChances";
 import AnswerInputs from "./AnswerInputs";
 import InputModal from "./InputModal";
 import AnswerResultModal from "./AnswerResultModal";
+import ResultModal from "./ResultModal";
 
 const InitialGameQuestions = () => {
   const { userId } = useParams();
@@ -30,6 +31,7 @@ const InitialGameQuestions = () => {
     visible: false,
     correct: null,
   });
+  const [showResultModal, setShowResultModal] = useState(false);
 
   const {
     transcript,
@@ -47,10 +49,11 @@ const InitialGameQuestions = () => {
   }, [browserSupportsSpeechRecognition]);
 
   useEffect(() => {
+    const cleanTranscript = (text) => text.replace(/\.$/, ""); // 마침표 제거
     if (finalTranscript !== "") {
-      setAnswer(finalTranscript);
+      setAnswer(cleanTranscript(finalTranscript));
     } else if (interimTranscript !== "") {
-      setAnswer(interimTranscript);
+      setAnswer(cleanTranscript(interimTranscript));
     }
   }, [interimTranscript, finalTranscript]);
 
@@ -73,16 +76,55 @@ const InitialGameQuestions = () => {
     setAnswer(e.target.value);
   };
 
-  const handleAnswer = (givenAnswer) => {
-    if (givenAnswer === questions[currentQuestionIndex]?.answerWord) {
+  const checkAnswer = async (userId, questionId, givenAnswer) => {
+    try {
+      const response = await fetch(
+        `http://13.209.160.116:8080/api/initial/results/check/${userId}/${questionId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ answer: givenAnswer }),
+        }
+      );
+      const data = await response.json();
+      console.log("API response:", data); // 응답 데이터 확인
+      if (data.status === 200 && data.message === "SUCCESS") {
+        return data.data.correct; // 여기서 data.data.correct 값을 반환
+      } else {
+        setError(data.message || "Failed to check answer");
+        return false;
+      }
+    } catch (error) {
+      setError("Failed to check answer");
+      return false;
+    }
+  };
+
+  const handleAnswer = async (givenAnswer) => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const correct = await checkAnswer(
+      userId,
+      currentQuestion.questionIdx,
+      givenAnswer
+    );
+    console.log("Correct:", correct); // correct 값 확인
+
+    if (correct) {
       setTotalCorrectAnswers((prev) => prev + 1);
       setAnswerResultModal({ visible: true, correct: true });
       setTimeout(() => {
         setAnswerResultModal({ visible: false, correct: null });
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        if (currentQuestionIndex + 1 === questions.length) {
+          setShowResultModal(true);
+        } else {
+          setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        }
         setAnswer("");
         setTimer(30); // 다음 질문을 위한 타이머 재설정
         setRemainingLives(3); // 다음 질문을 위한 목숨 재설정
+        setShowModal(false); // 모달 초기화
       }, 2000);
     } else {
       setRemainingLives((prevLives) => {
@@ -110,10 +152,15 @@ const InitialGameQuestions = () => {
   };
 
   const handleSkipQuestion = () => {
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    if (currentQuestionIndex + 1 === questions.length) {
+      setShowResultModal(true);
+    } else {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    }
     setAnswer("");
     setTimer(30); // 다음 질문을 위한 타이머 재설정
     setRemainingLives(3); // 다음 질문을 위한 목숨 재설정
+    setShowModal(false); // 모달 초기화
   };
 
   const handleSpeakClick = () => {
@@ -138,11 +185,45 @@ const InitialGameQuestions = () => {
     SpeechRecognition.startListening({ continuous: false, language: "ko-KR" });
   };
 
+  const closeResultModal = () => {
+    setShowResultModal(false);
+    navigate("/");
+  };
+
+  const continueGame = async () => {
+    setShowResultModal(false);
+    try {
+      const response = await fetch(
+        `http://13.209.160.116:8080/api/initial/topics/${userId}/select-and-questions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ topicName: "new_topic" }), // 새로운 주제를 JSON 형식으로 전달
+        }
+      );
+      const data = await response.json();
+      if (data.status === 200 && data.message === "SUCCESS") {
+        // 주제 선택 성공, 새로운 질문으로 이동
+        navigate("/topic-selection", {
+          state: { questions: data.data.questions },
+        });
+      } else {
+        // 오류 처리
+        setError(data.message || "Failed to select topic");
+      }
+    } catch (error) {
+      setError("Failed to select topic");
+    }
+  };
+
   if (questions.length === 0) {
     return <div>Loading...</div>;
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const remainingQuestions = questions.length - currentQuestionIndex - 1;
 
   return (
     <div className="initial-game-questions">
@@ -160,6 +241,7 @@ const InitialGameQuestions = () => {
         />
         <Lives totalCorrectAnswers={totalCorrectAnswers} />
         <RemainingChances remainingLives={remainingLives} />
+        <p className="remaining-questions">남은 문제: {remainingQuestions}</p>
         <AnswerInputs
           onSpeakClick={handleSpeakClick}
           onWriteClick={handleWriteClick}
@@ -182,6 +264,13 @@ const InitialGameQuestions = () => {
         correct={answerResultModal.correct}
         remainingLives={remainingLives}
       />
+      {showResultModal && (
+        <ResultModal
+          totalCorrectAnswers={totalCorrectAnswers}
+          closeModal={closeResultModal}
+          onContinue={continueGame}
+        />
+      )}
     </div>
   );
 };
