@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./InitialGameQuestions.css";
 import { FaTimes } from "react-icons/fa";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import QuestionBoard from "./QuestionBoard";
 import Lives from "./Lives";
 import RemainingChances from "./RemainingChances";
 import AnswerInputs from "./AnswerInputs";
 import InputModal from "./InputModal";
 import AnswerResultModal from "./AnswerResultModal";
-
-// Web Speech API 사용 설정
-const { webkitSpeechRecognition } = window;
-const recognition = new webkitSpeechRecognition();
-recognition.continuous = false;
-recognition.interimResults = false;
-recognition.lang = "ko-KR"; // 한국어 설정
 
 const InitialGameQuestions = () => {
   const { userId } = useParams();
@@ -35,6 +31,29 @@ const InitialGameQuestions = () => {
     correct: null,
   });
 
+  const {
+    transcript,
+    interimTranscript,
+    finalTranscript,
+    resetTranscript,
+    listening,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  useEffect(() => {
+    if (!browserSupportsSpeechRecognition) {
+      setError("This browser does not support speech recognition.");
+    }
+  }, [browserSupportsSpeechRecognition]);
+
+  useEffect(() => {
+    if (finalTranscript !== "") {
+      setAnswer(finalTranscript);
+    } else if (interimTranscript !== "") {
+      setAnswer(interimTranscript);
+    }
+  }, [interimTranscript, finalTranscript]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prevTimer) => {
@@ -49,20 +68,6 @@ const InitialGameQuestions = () => {
 
     return () => clearInterval(interval);
   }, [currentQuestionIndex]);
-
-  // 음성 인식 결과를 처리하는 함수
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    setAnswer(transcript);
-    closeModal();
-    handleAnswer(transcript);
-  };
-
-  recognition.onerror = (event) => {
-    console.error("Speech recognition error:", event.error);
-    setError(event.error);
-    closeModal();
-  };
 
   const handleAnswerChange = (e) => {
     setAnswer(e.target.value);
@@ -101,6 +106,7 @@ const InitialGameQuestions = () => {
 
   const handleSubmitAnswer = () => {
     handleAnswer(answer);
+    closeModal(); // 답 제출 후 모달 닫기
   };
 
   const handleSkipQuestion = () => {
@@ -113,7 +119,8 @@ const InitialGameQuestions = () => {
   const handleSpeakClick = () => {
     setModalType("speak");
     setShowModal(true);
-    recognition.start();
+    resetTranscript();
+    SpeechRecognition.startListening({ continuous: false, language: "ko-KR" });
   };
 
   const handleWriteClick = () => {
@@ -123,7 +130,12 @@ const InitialGameQuestions = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    recognition.stop();
+    SpeechRecognition.stopListening();
+  };
+
+  const handleRetry = () => {
+    resetTranscript();
+    SpeechRecognition.startListening({ continuous: false, language: "ko-KR" });
   };
 
   if (questions.length === 0) {
@@ -162,7 +174,7 @@ const InitialGameQuestions = () => {
           handleAnswerChange={handleAnswerChange}
           closeModal={closeModal}
           handleSubmitAnswer={handleSubmitAnswer}
-          recognition={recognition} // recognition을 prop으로 전달
+          handleRetry={handleRetry} // retry 기능 추가
         />
       )}
       <AnswerResultModal

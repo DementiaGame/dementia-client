@@ -7,7 +7,7 @@ const InputModal = ({
   handleAnswerChange,
   closeModal,
   handleSubmitAnswer,
-  recognition, // recognition을 prop으로 받음
+  handleRetry, // handleRetry를 prop으로 받음
 }) => {
   const renderContent = () => {
     if (modalType === "speak") {
@@ -19,10 +19,7 @@ const InputModal = ({
           <div className="modal-body">
             <h2>정답을 말하세요.</h2>
             <p>{answer}</p>
-            <button
-              className="retry-button"
-              onClick={() => recognition.start()}
-            >
+            <button className="retry-button" onClick={handleRetry}>
               다시 말하기
             </button>
             <button className="submit-button" onClick={handleSubmitAnswer}>
