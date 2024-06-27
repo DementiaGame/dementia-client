@@ -72,16 +72,10 @@ const InitialGame = () => {
           topicName: topic.topic,
         }
       );
-      console.log(
-        "Topic selected and questions fetched successfully:",
-        response.data
-      );
+      console.log("Topic and questions fetched successfully:", response.data);
 
-      const { selectedTopic, questions } = response.data.data;
-
-      // 주제와 질문 데이터를 전달하여 navigate
-      navigate(`/questions/${selectedTopic.idx}`, {
-        state: { selectedTopic, questions },
+      navigate(`/questions/${userId}`, {
+        state: { questions: response.data.data.questions },
       });
     } catch (error) {
       console.error(
