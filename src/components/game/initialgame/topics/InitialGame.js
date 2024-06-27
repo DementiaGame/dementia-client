@@ -44,6 +44,7 @@ const iconMap = {
 
 const InitialGame = () => {
   const [topics, setTopics] = useState([]);
+  const [topicHearts, setTopicHearts] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -62,6 +63,36 @@ const InitialGame = () => {
         setError(error.message);
       });
   }, []);
+
+  useEffect(() => {
+    // 각 주제별 맞힌 개수를 가져오는 API 호출
+    topics.forEach((topic) => {
+      axios
+        .post(
+          `http://13.209.160.116:8080/api/initial/results/correct-count/${userId}`,
+          {
+            topicName: topic.topic,
+          }
+        )
+        .then((response) => {
+          console.log(`Data fetched for topic ${topic.topic}:`, response.data);
+          setTopicHearts((prevHearts) => ({
+            ...prevHearts,
+            [topic.topic]: response.data.data.correctCount,
+          }));
+        })
+        .catch((error) => {
+          console.error(
+            `Error fetching correct count for topic ${topic.topic}:`,
+            error
+          );
+          setTopicHearts((prevHearts) => ({
+            ...prevHearts,
+            [topic.topic]: 0,
+          }));
+        });
+    });
+  }, [topics]);
 
   const handleTopicClick = async (topic) => {
     console.log(`Selecting topic: ${topic.topic}`);
@@ -124,6 +155,7 @@ const InitialGame = () => {
               </div>
               <div className="details">
                 <h3 className="title">{topic.topic}</h3>
+                <p className="hearts">❤️ {topicHearts[topic.topic] || 0}</p>
               </div>
             </div>
           ))}
