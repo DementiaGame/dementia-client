@@ -76,8 +76,42 @@ const InitialGameQuestions = () => {
     setAnswer(e.target.value);
   };
 
-  const handleAnswer = (givenAnswer) => {
-    if (givenAnswer === questions[currentQuestionIndex]?.answerWord) {
+  const checkAnswer = async (userId, questionId, givenAnswer) => {
+    try {
+      const response = await fetch(
+        `http://13.209.160.116:8080/api/initial/results/check/${userId}/${questionId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ answer: givenAnswer }),
+        }
+      );
+      const data = await response.json();
+      console.log("API response:", data); // 응답 데이터 확인
+      if (data.status === 200 && data.message === "SUCCESS") {
+        return data.data.correct; // 여기서 data.data.correct 값을 반환
+      } else {
+        setError(data.message || "Failed to check answer");
+        return false;
+      }
+    } catch (error) {
+      setError("Failed to check answer");
+      return false;
+    }
+  };
+
+  const handleAnswer = async (givenAnswer) => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const correct = await checkAnswer(
+      userId,
+      currentQuestion.questionIdx,
+      givenAnswer
+    );
+    console.log("Correct:", correct); // correct 값 확인
+
+    if (correct) {
       setTotalCorrectAnswers((prev) => prev + 1);
       setAnswerResultModal({ visible: true, correct: true });
       setTimeout(() => {
@@ -154,9 +188,32 @@ const InitialGameQuestions = () => {
     navigate("/");
   };
 
-  const continueGame = () => {
+  const continueGame = async () => {
     setShowResultModal(false);
-    navigate("/topic-selection"); // 주제 선택 화면으로 이동
+    try {
+      const response = await fetch(
+        `http://13.209.160.116:8080/api/initial/topics/${userId}/select-and-questions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ topicName: "new_topic" }), // 새로운 주제를 JSON 형식으로 전달
+        }
+      );
+      const data = await response.json();
+      if (data.status === 200 && data.message === "SUCCESS") {
+        // 주제 선택 성공, 새로운 질문으로 이동
+        navigate("/topic-selection", {
+          state: { questions: data.data.questions },
+        });
+      } else {
+        // 오류 처리
+        setError(data.message || "Failed to select topic");
+      }
+    } catch (error) {
+      setError("Failed to select topic");
+    }
   };
 
   if (questions.length === 0) {

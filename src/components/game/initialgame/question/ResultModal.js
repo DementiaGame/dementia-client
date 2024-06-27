@@ -16,7 +16,7 @@ const ResultModal = ({ totalCorrectAnswers, closeModal, onContinue }) => {
           </div>
           <div className="modal-body">
             <h2>축하합니다!</h2>
-            <p>지금까지 {totalCorrectAnswers * 10}개의 하트를 받았어요.</p>
+            <p>지금까지 {totalCorrectAnswers}개의 하트를 받았어요.</p>
             <button className="retry-button" onClick={closeModal}>
               이만 끝내기
             </button>
