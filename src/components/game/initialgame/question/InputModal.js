@@ -18,14 +18,14 @@ const InputModal = ({
           </div>
           <div className="modal-body">
             <h2>정답을 말하세요.</h2>
-            <p>음성 인식 중...</p>
+            <p>{answer}</p>
             <button
               className="retry-button"
               onClick={() => recognition.start()}
             >
               다시 말하기
             </button>
-            <button className="submit-button" onClick={closeModal}>
+            <button className="submit-button" onClick={handleSubmitAnswer}>
               완료
             </button>
           </div>
@@ -44,8 +44,14 @@ const InputModal = ({
               placeholder="정답 입력"
               value={answer}
               onChange={handleAnswerChange}
+              className="answer-input-field"
             />
-            <button className="retry-button">다시 쓰기</button>
+            <button
+              className="retry-button"
+              onClick={() => handleAnswerChange({ target: { value: "" } })}
+            >
+              다시 쓰기
+            </button>
             <button className="submit-button" onClick={handleSubmitAnswer}>
               완료
             </button>
