@@ -124,6 +124,7 @@ const InitialGameQuestions = () => {
         setAnswer("");
         setTimer(30); // 다음 질문을 위한 타이머 재설정
         setRemainingLives(3); // 다음 질문을 위한 목숨 재설정
+        setShowModal(false); // 모달 초기화
       }, 2000);
     } else {
       setRemainingLives((prevLives) => {
@@ -159,6 +160,7 @@ const InitialGameQuestions = () => {
     setAnswer("");
     setTimer(30); // 다음 질문을 위한 타이머 재설정
     setRemainingLives(3); // 다음 질문을 위한 목숨 재설정
+    setShowModal(false); // 모달 초기화
   };
 
   const handleSpeakClick = () => {
@@ -221,6 +223,7 @@ const InitialGameQuestions = () => {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const remainingQuestions = questions.length - currentQuestionIndex - 1;
 
   return (
     <div className="initial-game-questions">
@@ -238,6 +241,7 @@ const InitialGameQuestions = () => {
         />
         <Lives totalCorrectAnswers={totalCorrectAnswers} />
         <RemainingChances remainingLives={remainingLives} />
+        <p className="remaining-questions">남은 문제: {remainingQuestions}</p>
         <AnswerInputs
           onSpeakClick={handleSpeakClick}
           onWriteClick={handleWriteClick}
