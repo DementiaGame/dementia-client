@@ -11,6 +11,7 @@ import RemainingChances from "./RemainingChances";
 import AnswerInputs from "./AnswerInputs";
 import InputModal from "./InputModal";
 import AnswerResultModal from "./AnswerResultModal";
+import ResultModal from "./ResultModal";
 
 const InitialGameQuestions = () => {
   const { userId } = useParams();
@@ -30,6 +31,7 @@ const InitialGameQuestions = () => {
     visible: false,
     correct: null,
   });
+  const [showResultModal, setShowResultModal] = useState(false);
 
   const {
     transcript,
@@ -80,7 +82,11 @@ const InitialGameQuestions = () => {
       setAnswerResultModal({ visible: true, correct: true });
       setTimeout(() => {
         setAnswerResultModal({ visible: false, correct: null });
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        if (currentQuestionIndex + 1 === questions.length) {
+          setShowResultModal(true);
+        } else {
+          setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        }
         setAnswer("");
         setTimer(30); // 다음 질문을 위한 타이머 재설정
         setRemainingLives(3); // 다음 질문을 위한 목숨 재설정
@@ -111,7 +117,11 @@ const InitialGameQuestions = () => {
   };
 
   const handleSkipQuestion = () => {
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    if (currentQuestionIndex + 1 === questions.length) {
+      setShowResultModal(true);
+    } else {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    }
     setAnswer("");
     setTimer(30); // 다음 질문을 위한 타이머 재설정
     setRemainingLives(3); // 다음 질문을 위한 목숨 재설정
@@ -137,6 +147,16 @@ const InitialGameQuestions = () => {
   const handleRetry = () => {
     resetTranscript();
     SpeechRecognition.startListening({ continuous: false, language: "ko-KR" });
+  };
+
+  const closeResultModal = () => {
+    setShowResultModal(false);
+    navigate("/");
+  };
+
+  const continueGame = () => {
+    setShowResultModal(false);
+    navigate("/topic-selection"); // 주제 선택 화면으로 이동
   };
 
   if (questions.length === 0) {
@@ -183,6 +203,13 @@ const InitialGameQuestions = () => {
         correct={answerResultModal.correct}
         remainingLives={remainingLives}
       />
+      {showResultModal && (
+        <ResultModal
+          totalCorrectAnswers={totalCorrectAnswers}
+          closeModal={closeResultModal}
+          onContinue={continueGame}
+        />
+      )}
     </div>
   );
 };
