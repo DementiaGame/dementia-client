@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./SignupStep.css"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 
 const CompleteSignUp = () => {
-  const [nickName, setNickname] = useState("");
-  const [buttonDisabled, setButtonDisabled] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo = { ...location.state };
 
   const handleNext = async (event) => {
     event.preventDefault();
-    navigate.push("/nickName");
+    navigate("/signin");
   };
 
   const handleExit = async (event) => {
@@ -27,16 +28,18 @@ const CompleteSignUp = () => {
       </header>
       <body>
         <div>
-        <FaCheckCircle color="#ff6600"/>
-          <h2 className="signup-title">
+          <div className="signup-complete-icon">
+          <FaCheckCircle size={110} color="#ff6600"/>
+          </div>
+          <div className="signup-complete-message">
             가입 완료
-          </h2>
-            <div>
-
-            </div>
+          </div>
+          <div className="welcome-message">
+            {userInfo.nickName}님, 반가워요!
+          </div>
         </div>
         <div className="signup-footer">
-          <button className={buttonDisabled ? "disabled-signup-next-bnt" : "enabled-signup-next-bnt"} onClick={handleNext} disabled={buttonDisabled}>다음</button>
+          <button className="next-bnt" onClick={handleNext}>다음</button>
         </div>
       </body>
       <footer></footer>

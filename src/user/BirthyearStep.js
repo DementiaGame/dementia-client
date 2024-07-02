@@ -38,7 +38,11 @@ const BirthyearStep = () => {
 
   const handleNext = async (event) => {
     if (birthyear.length === 4 && validateBirthyear(birthyear)) {
-      navigate("/signup/gender-step");
+      navigate("/signup/gender-step", {
+        state: {
+        birthYear: Number(birthyear),
+        }
+      });
     } else {
       setBirthyearError("태어난 해를 다시 눌러주세요.");
     }
@@ -72,7 +76,8 @@ const BirthyearStep = () => {
                 </div>
                 </div>
               <div className="error-message">
-                {birthyearError && <div style={{ color: 'red' }}>{birthyearError}</div>}
+                {<div style={{ color: 'red' }}>
+                {birthyearError !== "" ? (birthyearError) : (<br/>)}</div>}
               </div>
             </div>
           </div>

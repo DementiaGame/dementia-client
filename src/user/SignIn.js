@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./SignIn.css";
-import { redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   //const [ rememberMe, setRememberMe ] = useState(false);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
 
+    const signinForm = {
+      nickName : nickName,
+      password : password,
+    }
+
+    console.log("nickname, password", signinForm);
+
     axios
-      .post("/users/signin", { nickName, password })
+      .post("http://localhost:8080/users/signin", signinForm)
       .then((response) => {
-        console.log("Login success" + response.data);
-        redirect('/')
+        console.log("Login success: " + response.data);
+        navigate('/')
       })
       .catch((error) => {
-        console.log("Login failed" + error);
+        console.log("Login failed: " + error);
       });
   };
 
@@ -47,14 +55,14 @@ const SignIn = () => {
             </div>
           </div>
           <div className="signup-btn">
-            <a href="/signup/birthyear-step">회원가입</a>
+            <Link to="/signup/birthyear-step">회원가입</Link>
           </div>
           <div className="signin-footer">
             <div className="input-group">
               <button type="button" className="faceauth-btn">
                 생체 인증
               </button>
-              <button type="button" className="signin-btn">
+              <button type="button" className="signin-btn" onClick={handleSignIn}>
                 로그인
               </button>
             </div>

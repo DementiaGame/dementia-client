@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SignupStep.css"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 
 const GenderStep = () => {
@@ -9,10 +9,17 @@ const GenderStep = () => {
   const [MaleButton, setMaleButton] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo = { ...location.state };
 
   const handleNext = async (event) => {
     event.preventDefault();
-    navigate("/signup/nickname-step");
+    navigate("/signup/nickname-step", {
+      state: {
+        ...userInfo,
+        gender: gender,
+      }
+    });
   };
 
   const handleGender = (gender) => {

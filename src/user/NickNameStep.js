@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./SignupStep.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 
 const NickNameStep = () => {
@@ -10,6 +10,8 @@ const NickNameStep = () => {
   const [nickNameDuplicateError, setNickNameDuplicateError] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo = { ...location.state };
 
   // todo: 1. 닉네임 중복 검사 api 생성 2. next-btn 눌렀을 때 닉네임 중복 검사 후, 유효하면 다음 페이지 로드
   const handleDuplicateNickname = async (event) => {
@@ -19,10 +21,10 @@ const NickNameStep = () => {
       .post("/users/validatenickname", { nickName })
       .then((response) => {
         console.log("validate nickname" + response.data);
-        
       })
       .catch((error) => {
         console.log("invalidate nickname" + error);
+        setNickNameDuplicateError("중복되는 닉네임입니다.")
       });
   };
 
@@ -43,7 +45,12 @@ const NickNameStep = () => {
 
   const handleNext = async (event) => {
     event.preventDefault();
-    navigate("/signup/password-step");
+    navigate("/signup/password-step", {
+      state: {
+        ...userInfo,
+        nickName: nickName,
+      }
+    });
   };
 
   const handleGoBack = async (event) => {
