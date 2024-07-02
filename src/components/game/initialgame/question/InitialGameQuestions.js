@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./InitialGameQuestions.css";
 import { FaTimes } from "react-icons/fa";
 import SpeechRecognition, {
@@ -12,9 +12,11 @@ import AnswerInputs from "./AnswerInputs";
 import InputModal from "./InputModal";
 import AnswerResultModal from "./AnswerResultModal";
 import ResultModal from "./ResultModal";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../../recoil/userState"; // Recoil 상태 import
 
 const InitialGameQuestions = () => {
-  const { userId } = useParams();
+  const { userIdx } = useRecoilValue(userState); // Recoil에서 userIdx 가져오기
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -105,7 +107,7 @@ const InitialGameQuestions = () => {
   const handleAnswer = async (givenAnswer) => {
     const currentQuestion = questions[currentQuestionIndex];
     const correct = await checkAnswer(
-      userId,
+      userIdx,
       currentQuestion.questionIdx,
       givenAnswer
     );
@@ -194,7 +196,7 @@ const InitialGameQuestions = () => {
     setShowResultModal(false);
     try {
       const response = await fetch(
-        `http://13.209.160.116:8080/api/initial/topics/${userId}/select-and-questions`,
+        `http://13.209.160.116:8080/api/initial/topics/${userIdx}/select-and-questions`,
         {
           method: "POST",
           headers: {
@@ -206,7 +208,7 @@ const InitialGameQuestions = () => {
       const data = await response.json();
       if (data.status === 200 && data.message === "SUCCESS") {
         // 주제 선택 성공, 새로운 질문으로 이동
-        navigate("/topic-selection", {
+        navigate("/gamemain", {
           state: { questions: data.data.questions },
         });
       } else {
