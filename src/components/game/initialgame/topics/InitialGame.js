@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../../recoil/userState"; // userState import
 import "./InitialGame.css";
 import {
   FaGraduationCap,
@@ -23,7 +25,6 @@ import hospitalIcon from "./resources/hospital.png";
 import animalIcon from "./resources/animal.png";
 
 const PAGE_SIZE = 4; // 페이지당 항목 수
-const userId = 1; // 임시 userId
 
 const iconMap = {
   과일: <img src={fruitIcon} alt="과일" className="icon" />,
@@ -43,6 +44,7 @@ const iconMap = {
 };
 
 const InitialGame = () => {
+  const userIdx = useRecoilValue(userState).userIdx; // Recoil에서 userIdx 가져오기
   const [topics, setTopics] = useState([]);
   const [topicHearts, setTopicHearts] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,7 +54,7 @@ const InitialGame = () => {
   useEffect(() => {
     axios
       .get("http://13.209.160.116:8080/api/initial/topics", {
-        withCredentials: false, // 세션 쿠키를 전송하지 않음
+        withCredentials: true, // 세션 쿠키를 전송하지 않음
       })
       .then((response) => {
         console.log("Data fetched successfully:", response.data);
@@ -69,7 +71,7 @@ const InitialGame = () => {
     topics.forEach((topic) => {
       axios
         .post(
-          `http://13.209.160.116:8080/api/initial/results/correct-count/${userId}`,
+          `http://13.209.160.116:8080/api/initial/results/correct-count/${userIdx}`,
           {
             topicName: topic.topic,
           }
@@ -92,20 +94,20 @@ const InitialGame = () => {
           }));
         });
     });
-  }, [topics]);
+  }, [topics, userIdx]);
 
   const handleTopicClick = async (topic) => {
     console.log(`Selecting topic: ${topic.topic}`);
     try {
       const response = await axios.post(
-        `http://13.209.160.116:8080/api/initial/topics/${userId}/select-and-questions`,
+        `http://13.209.160.116:8080/api/initial/topics/${userIdx}/select-and-questions`,
         {
           topicName: topic.topic,
         }
       );
       console.log("Topic and questions fetched successfully:", response.data);
 
-      navigate(`/questions/${userId}`, {
+      navigate(`/questions/${userIdx}`, {
         state: { questions: response.data.data.questions },
       });
     } catch (error) {
