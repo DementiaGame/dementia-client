@@ -6,7 +6,7 @@ import InitialGameQuestions from "./components/game/initialgame/InitialGameQuest
 import SignIn from "./user/SignIn";
 import BirthdayStep from "./user/BirthyearStep";
 import GenderStep from "./user/GenderStep";
-import NickNameStep from "./user/nicknameStep";
+import NickNameStep from "./user/NickNameStep";
 import PasswordStep from "./user/PasswordStep";
 import CompleteSignUp from "./user/CompleteSignup";
 
