@@ -73,7 +73,7 @@ body {
 }
 
 .number-pad {
-  margin-top: 150px;
+  margin-top: 270px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
@@ -199,4 +199,44 @@ body {
 
 .error-message {
   padding: 10px;
+}
+
+.signup-complete-icon {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.signup-complete-message {
+  margin-top: 30px;
+  font-family: "Happy";
+  font-size: 34px;
+  display: flex;;
+  justify-content: center;
+}
+
+.welcome-message {
+  margin-top: 12px;
+  font-family: "Happy";
+  font-size: 24px;
+  display: flex;;
+  justify-content: center;
+}
+
+.signup-footer .next-bnt {
+  margin: 20px 5px;
+  padding: 20px 100px;
+  width: 380px;
+  font-family: "Happy";
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-footer .next-bnt:hover {
+  background-color: #cc5200;
 }
