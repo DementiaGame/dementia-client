@@ -54,11 +54,11 @@ const SignIn = () => {
               ></input>
             </div>
           </div>
-          <div className="signup-btn">
-            <Link to="/signup/birthyear-step">회원가입</Link>
-          </div>
           <div className="signin-footer">
-            <div className="input-group">
+            <div className="signin-btn-group">
+              <div className="signup-btn">
+              <Link to="/signup/birthyear-step">회원가입</Link>
+            </div>
               <button type="button" className="faceauth-btn">
                 생체 인증
               </button>

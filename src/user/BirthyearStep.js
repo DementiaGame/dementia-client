@@ -75,11 +75,11 @@ const BirthyearStep = () => {
                   {birthyear}
                 </div>
                 </div>
-              <div className="error-message">
+            </div>
+            <div className="error-message">
                 {<div style={{ color: 'red' }}>
                 {birthyearError !== "" ? (birthyearError) : (<br/>)}</div>}
               </div>
-            </div>
           </div>
         </div>
         <div className="number-pad">
