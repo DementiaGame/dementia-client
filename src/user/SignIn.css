@@ -1,0 +1,88 @@
+.body {
+  margin: 0;
+  font-family: "Happy", sans-serif;
+  background-color: #f7f7f7; /* 아주 살짝 회색 배경 */
+}
+
+.signin-container {
+  max-width: 400px; /* 핸드폰 크기로 고정 */
+  margin: 0 auto;
+  display: flex; 
+  flex-direction: column; /* 수직 방향 flex */
+}
+
+.signin-title{
+  margin-top: 130px;
+  font-family: "Happy Bold";
+  font-size: 34px;
+  text-align: center;
+}
+
+.signin-form-group {
+  margin-bottom: 200px;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.signin-form-group .input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* 수직 방향 flex */
+}
+
+.signin-form-group .input-group [type="text"] {
+  width: 100%;
+  padding: 20px;
+  margin-top: 5px;
+  font-size: 22px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.signin-footer {
+  display: flex;
+  justify-content: center;
+  padding: 0 10px 0 10px;
+}
+.signin-footer .input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* 수직 방향 flex */
+}
+
+.signin-footer .signin-btn,
+.signin-footer .faceauth-btn {
+  width: 100%;
+  padding: 20px;
+  background-color: #ff6600;
+  color: #fff;
+  font-size: 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.signin-footer .signin-btn:hover,
+.signin-footer .faceauth-btn:hover {
+  background-color: #cc5200;
+}
+
+.signup-btn {
+  padding-top: 190px;
+  margin: 10px 0 10px 0;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.signup-btn a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.signup-btn a:hover {
+  text-decoration: underline;
+}
