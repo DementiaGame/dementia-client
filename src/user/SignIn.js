@@ -20,7 +20,7 @@ const SignIn = () => {
     console.log("nickname, password", signinForm);
 
     axios
-      .post("http://localhost:8080/users/signin", signinForm)
+      .post("http://localhost:8080/users/signin", signinForm, { withCredentials: true })
       .then((response) => {
         console.log("Login success: " + response.data);
         navigate('/')
