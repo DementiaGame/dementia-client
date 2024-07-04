@@ -6,8 +6,10 @@ import { MdClose } from "react-icons/md";
 
 const NickNameStep = () => {
   const [nickName, setNickName] = useState("");
-  const [nickNameInvalidError, setNickNameInvalidError] = useState("");
-  const [nickNameDuplicateError, setNickNameDuplicateError] = useState("");
+  const [invalidMessage, setInvalidMessage] = useState(""); 
+  const [duplicateMessage, setDuplicateMessage] = useState(""); 
+  //const [nickNameInvalidError, setNickNameInvalidError] = useState(false);
+  const [nickNameDuplicateError, setNickNameDuplicateError] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,17 +17,26 @@ const NickNameStep = () => {
 
   // todo: 1. 닉네임 중복 검사 api 생성 2. next-btn 눌렀을 때 닉네임 중복 검사 후, 유효하면 다음 페이지 로드
   const handleDuplicateNickname = async (event) => {
-    event.preventDefault();
-
-    axios
-      .post("/users/validatenickname", { nickName })
+    try {    
+      const params = { nickName: nickName };
+      axios
+      .get("http://localhost:8080/users/existnickname", { params })
       .then((response) => {
-        console.log("validate nickname" + response.data);
-      })
-      .catch((error) => {
-        console.log("invalidate nickname" + error);
-        setNickNameDuplicateError("중복되는 닉네임입니다.")
+        console.log("check duplicate nickname: " + response.data.data);
+        
+        if (response.data.data) {
+          setDuplicateMessage("중복되는 닉네임입니다.")
+          setNickNameDuplicateError(true);
+        } else {
+          setDuplicateMessage("사용가능한 닉네임입니다.")
+          setNickNameDuplicateError(false)
+          setButtonDisabled(false);
+        }
       });
+    } catch (error) {
+        console.log("duplicate nickname" + error);
+        setDuplicateMessage("중복 닉네임 확인 오류입니다.")
+    }
   };
 
   const validateNickName = (nick) => {
@@ -33,18 +44,7 @@ const NickNameStep = () => {
     return nickRegex.test(nick);
   };
 
-  useEffect(() => {
-    if (nickName !== "" && validateNickName(nickName)) {
-      setButtonDisabled(false);
-      setNickNameInvalidError("");
-    } else {
-      setButtonDisabled(true);
-      setNickNameInvalidError("닉네임은 2~12자리면서 초성이 아닌 한글, 영어, 숫자로 구성되어야 합니다.");
-    }
-  }, [nickName, setNickNameInvalidError]);
-
-  const handleNext = async (event) => {
-    event.preventDefault();
+  const handleNext = (event) => {
     navigate("/signup/password-step", {
       state: {
         ...userInfo,
@@ -61,6 +61,24 @@ const NickNameStep = () => {
     navigate('/signin')
   }
 
+  // 닉네임 유효성 체크
+  useEffect(() => {
+    if (nickName !== "" && validateNickName(nickName)) {
+      setInvalidMessage("");
+    } else {
+      setInvalidMessage("닉네임은 2~12자리면서 초성이 아닌 한글, 영어, 숫자로 구성되어야 합니다.");
+    }
+  }, [nickName]);
+
+  // 중복 닉네임 체크
+  useEffect(() => {
+    if (nickName !== "" && !nickNameDuplicateError) {
+      setDuplicateMessage("");
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [nickName, nickNameDuplicateError]);
+
   return (
     <div className="signup-container">
       <header className="signup-header">
@@ -68,7 +86,7 @@ const NickNameStep = () => {
           <MdClose size={24} onClick={handleExit}/>
         </button>
       </header>
-      <body>
+      <main>
         <div>
           <h2 className="signup-title">
             게임에서 사용할 <b>별명</b>을 알려주세요.
@@ -82,13 +100,17 @@ const NickNameStep = () => {
                 onChange={(e) => setNickName(e.target.value)}
               ></input>
               <div className="error-message">
-                {nickNameInvalidError && <div style={{ color: 'red' }}>{nickNameInvalidError}</div>}
+                {invalidMessage && <div style={{ color: 'red' }}>{invalidMessage}</div>}
               </div>
+              <div className="error-message">
+                {duplicateMessage && <div style={{ color: 'red' }}>{duplicateMessage}</div>}
+              </div>
+              <button className="nickname-check-btn" onClick={handleDuplicateNickname}>중복 확인</button>
             </div>
           </div>
         </div>
         <div className="signup-footer">
-          <butto className="signup-back-bnt" onClick={handleGoBack}>이전</butto>
+          <button className="signup-back-bnt" onClick={handleGoBack}>이전</button>
           <button
             className={
               buttonDisabled
@@ -101,8 +123,8 @@ const NickNameStep = () => {
             다음
           </button>
         </div>
-      </body>
-      <footer></footer>
+      </main>
+
     </div>
   );
 };
