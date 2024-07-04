@@ -7,6 +7,7 @@ const SignIn = () => {
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [showSigninErrorModal, setShowSigninErrorModal] = useState(false);
   //const [ rememberMe, setRememberMe ] = useState(false);
 
   const handleSignIn = async (event) => {
@@ -27,15 +28,20 @@ const SignIn = () => {
       })
       .catch((error) => {
         console.log("Login failed: " + error);
+        setShowSigninErrorModal(true);
       });
   };
+
+  const closeSigninErrorModal= () => {
+    setShowSigninErrorModal(false);
+  }
 
   return (
     <div className="signin-container">
       <header>
         <h2 className="signin-title">로그인</h2>
       </header>
-      <body>
+      <main>
         <form onSubmit={handleSignIn}>
           <div className="signin-form-group">
             <div className="input-group">
@@ -68,8 +74,17 @@ const SignIn = () => {
             </div>
           </div>
         </form>
-      </body>
-      <footer></footer>
+      </main>
+      {showSigninErrorModal && (
+        <div className="modal-container">
+          <div className="modal-content">
+            <p className="modal-message">로그인에 실패했습니다.</p>
+            <div className="modal-btns">
+              <button className="agree-modal-btn" onClick={closeSigninErrorModal}>확인</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
