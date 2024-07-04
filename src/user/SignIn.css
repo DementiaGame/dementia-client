@@ -41,6 +41,16 @@
   box-sizing: border-box;
 }
 
+.signin-form-group .input-group [type="password"] {
+  width: 100%;
+  padding: 20px;
+  margin-top: 5px;
+  font-size: 22px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
 .signin-footer {
   display: flex;
   justify-content: center;
