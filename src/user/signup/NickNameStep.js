@@ -20,7 +20,7 @@ const NickNameStep = () => {
     try {    
       const params = { nickName: nickName };
       axios
-      .get("http://localhost:8080/users/existnickname", { params })
+      .get("http://13.209.160.116:8080/users/existnickname", { params })
       .then((response) => {
         console.log("check duplicate nickname: " + response.data.data);
         
