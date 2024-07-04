@@ -63,7 +63,7 @@ const avatarStyle = {
 };
 
 const handleSignout = () => {
-  axios.post('http://localhost:8080/users/signout', {}, { withCredentials: true })
+  axios.post('http://13.209.160.116:8080/users/signout', {}, { withCredentials: true })
     .then((response) => {
       console.log('Signout successful:', response.data);
       navigate('/signin'); 
