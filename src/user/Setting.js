@@ -3,31 +3,37 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaCog, FaUserCircle } from "react-icons/fa";
 import { MdChevronRight } from 'react-icons/md';
+import { useSetRecoilState } from "recoil";
+import { userState } from "../recoil/userState";
 import "./Setting.css"
 
 const Setting = () => {
-const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
-const [user, setUser] = useState(null);
-const [effects, setEffects] = useState(false); // 효과음 설정
-const [notifications, setNotifications] = useState(false); // 알림 설정
-const [faceauth, setFaceAuth] = useState(false); // 생체 인증 설정
-const [nickName, setNickName] = useState("");
-const [birthyear, setBirthyear] = useState(0);
-const [gender, setGender] = useState("");
-const [profileImage, setProfileImage] = useState(null);
-const [showLogoutModal, setShowLogoutModal] = useState(false);
-const [showAccountDeletionModal, setShowAccountDeletionModal] = useState(false);
-const [fetchTimeout, setFetchTimeout] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [user, setUser] = useState(null);
+  const [effects, setEffects] = useState(true); // 효과음 설정
+  const [notifications, setNotifications] = useState(false); // 알림 설정
+  const [faceAuth, setFaceAuth] = useState(false); // 생체 인증 설정
+  const [faceData, setFaceData] = useState(""); // 얼굴 인식 데이터
+  const [nickName, setNickName] = useState("");
+  const [birthyear, setBirthyear] = useState(0);
+  const [gender, setGender] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showAccountDeletionModal, setShowAccountDeletionModal] = useState(false);
+  const [fetchTimeout, setFetchTimeout] = useState(false);
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  const setUserState = useSetRecoilState(userState); // Recoil 상태 설정 함수
 
 const handleToggle = (option) => {
   if (option === 'effects') {
     setEffects(!effects);
   } else if (option === 'notifications') {
     setNotifications(!notifications);
-  } else if (option === 'faceauth') {
-    setFaceAuth(!faceauth);
+  } else if (option === 'faceAuth') {
+    setFaceAuth(!faceAuth);
+    // todo: 토글 활성화 시, facedata가 설정돼있지 않다면 facedata를 저장하는 모달 생성 -> 사용자 faceData에 담아 서버로 post
+    //handleFaceAuth(); 
   }
 };
 
@@ -56,16 +62,31 @@ const avatarStyle = {
   backgroundColor: getRandomColor(), // 랜덤 색상 생성 함수 호출
 };
 
-const handleLogout = () => {
+const handleSignout = () => {
   axios.post('http://localhost:8080/users/signout', {}, { withCredentials: true })
     .then((response) => {
-      console.log('Logout successful:', response.data);
-      navigate('/signin'); // Navigate to login page after logout
+      console.log('Signout successful:', response.data);
+      navigate('/signin'); 
     })
     .catch((error) => {
-      console.error('Logout error:', error);
+      console.error('Signout error:', error);
     });
 };
+
+const handleFaceAuth = () => {
+  const updateData = {
+    ...user,
+    faceData: faceData,
+  };
+
+  axios.post('http://localhost:8080/users', { updateData }, { withCredentials: true })
+    .then((response) => {
+      console.log('faceAuth setting success:', response.data);
+    })
+    .catch((error) => {
+      console.error('faceAuth setting fail:', error);
+    });
+}
 
 const openLogoutModal = () => {
   setShowLogoutModal(true);
@@ -100,8 +121,10 @@ const handleAccountDeletion = () => {
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/users', { withCredentials: true });
+      const response = await axios.get('http://13.209.160.116:8080/users', { withCredentials: true });
+
       const userData = response.data;
+
       setUser(userData);
       setNickName(userData.data.nickName);
       setBirthyear(Number(userData.data.birthYear));
@@ -109,6 +132,22 @@ useEffect(() => {
       setFaceAuth(userData.data.faceData !== null);
       setProfileImage(userData.data.profileImage);
       setIsLoading(false);
+
+      // Recoil 상태 업데이트
+      setUserState((prevState) => {
+        const newState = {
+          birthyear: birthyear,
+          gender: gender,
+          faceData: userData.data.faceData,
+          profileImage: profileImage,
+          role: userData.data.role,
+          effects: effects,
+          faceAuth: faceAuth,
+        };
+        console.log("Updated Recoil state:", newState);
+        return newState;
+      });
+
     } catch (error) {
       console.log('get user info error:', error);
       setIsLoading(false);
@@ -216,7 +255,7 @@ return (
               <div className="setting-item">
                 생체 인증
                 <div
-                  className={`toggle-button ${faceauth ? 'active' : ''}`}
+                  className={`toggle-button ${faceAuth ? 'active' : ''}`}
                   onClick={(e) => handleToggle('faceauth')}
                 />
               </div>
@@ -236,21 +275,21 @@ return (
         </div>
       </main>
       {showLogoutModal && (
-        <div className="modal-container">
-          <div className="modal-content">
-            <p className="modal-message">로그아웃 하시겠습니까?</p>
-            <div className="modal-btns">
-              <button className="agree-modal-btn" onClick={handleLogout}>확인</button>
+        <div className="setting-modal-container">
+          <div className="setting-modal-content">
+            <p className="setting-modal-message">로그아웃 하시겠습니까?</p>
+            <div className="setting-modal-btns">
+              <button className="agree-modal-btn" onClick={handleSignout}>확인</button>
               <button className="disagree-modal-btn" onClick={closeLogoutModal}>취소</button>
             </div>
           </div>
         </div>
       )}
       {showAccountDeletionModal && (
-        <div className="modal-container">
-          <div className="modal-content">
-            <p className="modal-message">계정을 탈퇴하시겠습니까?</p>
-            <div className="modal-btns">
+        <div className="setting-modal-container">
+          <div className="setting-modal-content">
+            <p className="setting-modal-message">계정을 탈퇴하시겠습니까?</p>
+            <div className="setting-modal-btns">
               <button className="agree-modal-btn" onClick={handleAccountDeletion}>확인</button>
               <button className="disagree-modal-btn" onClick={closeAccountDeletionModal}>취소</button>
             </div>

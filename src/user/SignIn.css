@@ -96,3 +96,66 @@
 .signup-btn a:hover {
   text-decoration: underline;
 }
+
+/*모달창 */  
+.signin-modal-container {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0px;
+}
+  
+.signin-modal-content {
+  background-color: #ffffff;
+  width: 250px;
+  height: 160px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.signin-modal-container .modal-message {
+  font-family: "Happy";
+  font-size: 22px;
+}
+
+.signin-modal-btns {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+  
+.signin-modal-container .agree-modal-btn,
+.signin-modal-container .disagree-modal-btn {
+  width: 40%;
+  font-family: "Happy";
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0px 5px;
+  padding: 12px 15px;
+  justify-content: center;
+}
+
+.signin-modal-container .agree-modal-btn {
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+}
+
+.signin-modal-container .disagree-modal-btn {
+  background-color: #ffffff;
+  color: #ff6600;
+  border: 1px solid;
+}
