@@ -4,11 +4,11 @@ import GameMain from "./components/game/GameMain";
 import InitialGame from "./components/game/initialgame/topics/InitialGame";
 import InitialGameQuestions from "./components/game/initialgame/question/InitialGameQuestions";
 import SignIn from "./user/SignIn";
-import BirthdayStep from "./user/BirthyearStep";
-import GenderStep from "./user/GenderStep";
-import NickNameStep from "./user/NickNameStep";
-import PasswordStep from "./user/PasswordStep";
-import CompleteSignUp from "./user/CompleteSignup";
+import BirthdayStep from "./user/signup/BirthyearStep";
+import GenderStep from "./user/signup/GenderStep";
+import NickNameStep from "./user/signup/NickNameStep";
+import PasswordStep from "./user/signup/PasswordStep";
+import CompleteSignUp from "./user/signup/CompleteSignup";
 import Setting from "./user/Setting";
 
 function App() {
