@@ -38,7 +38,7 @@ const PasswordStep = () => {
     }
     console.log("signupForm: ", signupForm);
 
-    axios.post("http://localhost:8080/users/signup", signupForm)
+    axios.post("http://13.209.160.116:8080/users/signup", signupForm)
       .then((response) => {
         console.log("signup success: ", response);
         navigate("/signup/complete-signup", {
