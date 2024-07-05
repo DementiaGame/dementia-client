@@ -10,6 +10,8 @@ import NickNameStep from "./user/signup/NickNameStep";
 import PasswordStep from "./user/signup/PasswordStep";
 import CompleteSignUp from "./user/signup/CompleteSignup";
 import Setting from "./user/Setting";
+import MultiplayerGameLobby from "./components/game/multigame/MultiplayerGameLobby";
+import RoomWaitingArea from "./components/game/multigame/RoomWaitingArea";
 
 function App() {
   return (
@@ -18,13 +20,18 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/gamemain" element={<GameMain />} />
         <Route path="/initialgame" element={<InitialGame />} />
+        <Route path="/multiplayergame" element={<MultiplayerGameLobby />} />
+        <Route
+          path="/multiplayergame/room/:roomId"
+          element={<RoomWaitingArea />}
+        />
         <Route path="/questions/:userId" element={<InitialGameQuestions />} />
-        <Route path="/signin" element={<SignIn />}/>
-        <Route path="/signup/birthyear-step" element={<BirthdayStep />}/>
-        <Route path="/signup/gender-step" element={<GenderStep />}/>
-        <Route path="/signup/nickname-step" element={<NickNameStep />}/>
-        <Route path="/signup/password-step" element={<PasswordStep />}/>
-        <Route path="/signup/complete-signup" element={<CompleteSignUp />}/>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup/birthyear-step" element={<BirthdayStep />} />
+        <Route path="/signup/gender-step" element={<GenderStep />} />
+        <Route path="/signup/nickname-step" element={<NickNameStep />} />
+        <Route path="/signup/password-step" element={<PasswordStep />} />
+        <Route path="/signup/complete-signup" element={<CompleteSignUp />} />
         <Route path="/user/setting" element={<Setting />}></Route>
       </Routes>
     </Router>
