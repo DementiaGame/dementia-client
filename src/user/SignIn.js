@@ -16,6 +16,8 @@ const SignIn = () => {
 
   const user = useRecoilValue(userState); // Recoil 상태 가져오기
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleSignIn = async (event) => {
     event.preventDefault();
 
@@ -28,7 +30,7 @@ const SignIn = () => {
 
     try {
       const response = await axios.post(
-        "http://13.209.160.116:8080/users/signin",
+        `${apiUrl}/users/signin`,
         signinForm,
         { withCredentials: true }
       );

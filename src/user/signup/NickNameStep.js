@@ -15,12 +15,14 @@ const NickNameStep = () => {
   const location = useLocation();
   const userInfo = { ...location.state };
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // todo: 1. 닉네임 중복 검사 api 생성 2. next-btn 눌렀을 때 닉네임 중복 검사 후, 유효하면 다음 페이지 로드
   const handleDuplicateNickname = async (event) => {
     try {    
       const params = { nickName: nickName };
       axios
-      .get("http://13.209.160.116:8080/users/existnickname", { params })
+      .get(`${apiUrl}/users/existnickname`, { params })
       .then((response) => {
         console.log("check duplicate nickname: " + response.data.data);
         

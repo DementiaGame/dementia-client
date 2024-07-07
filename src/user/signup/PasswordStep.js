@@ -17,6 +17,8 @@ const PasswordStep = () => {
   const location = useLocation();
   const userInfo = { ...location.state };
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
     return passwordRegex.test(password);
@@ -38,7 +40,8 @@ const PasswordStep = () => {
     }
     console.log("signupForm: ", signupForm);
 
-    axios.post("http://13.209.160.116:8080/users/signup", signupForm)
+    axios.post(`${apiUrl}/users/signup`, signupForm)
+    //axios.post("http://13.209.160.116:8080/users/signup", signupForm)
       .then((response) => {
         console.log("signup success: ", response);
         navigate("/signup/complete-signup", {
