@@ -10,8 +10,8 @@ import {
 } from "react-icons/fa";
 
 const levels = [
-  { name: "쉬움", rows: 2, cols: 3, hearts: 9999 },
-  { name: "보통", rows: 3, cols: 4, hearts: 1432 },
+  { name: "쉬움", rows: 3, cols: 2, hearts: 9999 },
+  { name: "보통", rows: 4, cols: 3, hearts: 1432 },
   { name: "어려움", rows: 4, cols: 4, hearts: 0 },
 ];
 
