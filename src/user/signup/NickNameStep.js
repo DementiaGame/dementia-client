@@ -1,41 +1,40 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./SignupStep.css";
-import { useNavigate,useLocation } from "react-router-dom";
+import "./NickNameStep.css";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
+import { FaMicrophone } from "react-icons/fa";
 
 const NickNameStep = () => {
   const [nickName, setNickName] = useState("");
-  const [invalidMessage, setInvalidMessage] = useState(""); 
-  const [duplicateMessage, setDuplicateMessage] = useState(""); 
-  //const [nickNameInvalidError, setNickNameInvalidError] = useState(false);
+  const [invalidMessage, setInvalidMessage] = useState("");
+  const [duplicateMessage, setDuplicateMessage] = useState("");
   const [nickNameDuplicateError, setNickNameDuplicateError] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const userInfo = { ...location.state };
 
-  // todo: 1. 닉네임 중복 검사 api 생성 2. next-btn 눌렀을 때 닉네임 중복 검사 후, 유효하면 다음 페이지 로드
   const handleDuplicateNickname = async (event) => {
-    try {    
+    try {
       const params = { nickName: nickName };
       axios
-      .get("http://13.209.160.116:8080/users/existnickname", { params })
-      .then((response) => {
-        console.log("check duplicate nickname: " + response.data.data);
-        
-        if (response.data.data) {
-          setDuplicateMessage("중복되는 닉네임입니다.")
-          setNickNameDuplicateError(true);
-        } else {
-          setDuplicateMessage("사용가능한 닉네임입니다.")
-          setNickNameDuplicateError(false)
-          setButtonDisabled(false);
-        }
-      });
+        .get("http://13.209.160.116:8080/users/existnickname", { params })
+        .then((response) => {
+          console.log("check duplicate nickname: " + response.data.data);
+
+          if (response.data.data) {
+            setDuplicateMessage("중복되는 닉네임입니다.");
+            setNickNameDuplicateError(true);
+          } else {
+            setDuplicateMessage("사용가능한 닉네임입니다.");
+            setNickNameDuplicateError(false);
+            setButtonDisabled(false);
+          }
+        });
     } catch (error) {
-        console.log("duplicate nickname" + error);
-        setDuplicateMessage("중복 닉네임 확인 오류입니다.")
+      console.log("duplicate nickname" + error);
+      setDuplicateMessage("중복 닉네임 확인 오류입니다.");
     }
   };
 
@@ -49,28 +48,33 @@ const NickNameStep = () => {
       state: {
         ...userInfo,
         nickName: nickName,
-      }
+      },
     });
   };
 
   const handleGoBack = async (event) => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   const handleExit = async (event) => {
-    navigate('/signin')
-  }
+    navigate("/signin");
+  };
 
-  // 닉네임 유효성 체크
+  const handleVoiceInput = () => {
+    // 음성인식 기능 구현
+    console.log("음성인식 기능 호출");
+  };
+
   useEffect(() => {
     if (nickName !== "" && validateNickName(nickName)) {
       setInvalidMessage("");
     } else {
-      setInvalidMessage("닉네임은 2~12자리면서 초성이 아닌 한글, 영어, 숫자로 구성되어야 합니다.");
+      setInvalidMessage(
+        "닉네임은 2~12자리면서 초성이 아닌 한글, 영어, 숫자로 구성되어야 합니다."
+      );
     }
   }, [nickName]);
 
-  // 중복 닉네임 체크
   useEffect(() => {
     if (nickName !== "" && !nickNameDuplicateError) {
       setDuplicateMessage("");
@@ -82,8 +86,8 @@ const NickNameStep = () => {
   return (
     <div className="signup-container">
       <header className="signup-header">
-        <button className="close-btn">
-          <MdClose size={24} onClick={handleExit}/>
+        <button className="close-btn" onClick={handleExit}>
+          <MdClose size={24} />
         </button>
       </header>
       <main>
@@ -92,30 +96,44 @@ const NickNameStep = () => {
             게임에서 사용할 <b>별명</b>을 알려주세요.
           </h2>
           <div className="signup-form-group">
-            <div className="input-group">
+            <div className="input1-group">
               <input
                 type="text"
                 placeholder="별명 입력"
                 value={nickName}
                 onChange={(e) => setNickName(e.target.value)}
-              ></input>
+              />
               <div className="error-message">
-                {invalidMessage && <div style={{ color: 'red' }}>{invalidMessage}</div>}
+                {invalidMessage && (
+                  <div style={{ color: "red" }}>{invalidMessage}</div>
+                )}
               </div>
               <div className="error-message">
-                {duplicateMessage && <div style={{ color: 'red' }}>{duplicateMessage}</div>}
+                {duplicateMessage && (
+                  <div style={{ color: "red" }}>{duplicateMessage}</div>
+                )}
               </div>
-              <button className="nickname-check-btn" onClick={handleDuplicateNickname}>중복 확인</button>
+              <button
+                className="nickname-check-btn"
+                onClick={handleDuplicateNickname}
+              >
+                중복 확인
+              </button>
+              <button className="voice-input1-btn" onClick={handleVoiceInput}>
+                <FaMicrophone /> 음성으로도 입력할 수 있어요!
+              </button>
             </div>
           </div>
         </div>
         <div className="signup-footer">
-          <button className="signup-back-bnt" onClick={handleGoBack}>이전</button>
+          <button className="signup-back-btn" onClick={handleGoBack}>
+            이전
+          </button>
           <button
             className={
               buttonDisabled
-                ? "disabled-signup-next-bnt"
-                : "enabled-signup-next-bnt"
+                ? "disabled-signup-next-btn"
+                : "enabled-signup-next-btn"
             }
             onClick={handleNext}
             disabled={buttonDisabled}
@@ -124,7 +142,6 @@ const NickNameStep = () => {
           </button>
         </div>
       </main>
-
     </div>
   );
 };

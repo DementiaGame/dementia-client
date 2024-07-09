@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./SignupStep.css";
+import "./GenderStep.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 

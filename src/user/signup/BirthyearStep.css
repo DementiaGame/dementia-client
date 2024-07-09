@@ -50,11 +50,27 @@ body {
   width: 100%;
 }
 
+div[type="text"] {
+  border: none;
+  outline: none;
+  background: none;
+}
+
 .birthyear-digit {
   flex: 1;
-  font-size: 36px;
+  font-size: 38px;
   text-align: center;
   position: relative;
+  border-style: none; /* 기본 보더 제거 */
+  outline-style: none; /* 기본 아웃라인 제거 */
+  border: none; /* 기본 보더 제거 */
+  outline: none; /* 기본 아웃라인 제거 */
+  background: none; /* 기본 배경 제거 */
+  box-shadow: none; /* 박스 그림자 제거 */
+  text-decoration: none; /* 텍스트 데코레이션 제거 */
+  -webkit-appearance: none; /* 웹킷 브라우저에서 기본 스타일 제거 */
+  -moz-appearance: none; /* 파이어폭스에서 기본 스타일 제거 */
+  appearance: none; /* 기본 스타일 제거 */
 }
 
 .birthyear-digit::after {
@@ -73,10 +89,11 @@ body {
 }
 
 /* 입력 요소에서 기본 스타일 제거 */
-input[type="text"] {
+.birthyear-input {
   border: none;
   outline: none;
   background: none;
+  box-shadow: none; /* 박스 그림자 제거 */
 }
 
 .signup-form-group {
@@ -91,16 +108,6 @@ input[type="text"] {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-}
-
-.signup-form-group input[type="text"] {
-  width: 100%;
-  padding: 20px;
-  margin-top: 5px;
-  font-size: 22px;
-  border: 1px solid #dbdbdb;
-  border-radius: 8px;
-  box-sizing: border-box;
 }
 
 .number-pad {
@@ -183,44 +190,5 @@ input[type="text"] {
 }
 
 .error-message {
-  padding: 10px;
-  font-family: "Happy";
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  color: red;
-}
-
-@media (max-width: 400px) {
-  .signup-container {
-    padding: 0 10px;
-  }
-
-  .signup-title {
-    font-size: 20px;
-  }
-
-  .birthyear-display {
-    font-size: 20px;
-  }
-
-  .birthyear-digit {
-    width: 30px;
-    font-size: 30px;
-  }
-
-  .number-pad button {
-    font-size: 16px;
-  }
-
-  .signup-back-btn,
-  .enabled-signup-next-btn,
-  .disabled-signup-next-btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-
-  .error-message {
-    font-size: 16px;
-  }
+  font-size: 16px;
 }

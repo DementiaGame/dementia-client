@@ -20,10 +20,10 @@ const SignIn = () => {
     console.log("nickname, password", signinForm);
 
     axios
-      .post("http://localhost:8080/users/signin", signinForm)
+      .post("http://13.209.160.116:8080/users/signin", signinForm)
       .then((response) => {
         console.log("Login success: " + response.data);
-        navigate("/");
+        navigate("/gamemain");
       })
       .catch((error) => {
         console.log("Login failed: " + error);

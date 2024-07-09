@@ -1,0 +1,183 @@
+body {
+  margin: 0;
+  font-family: "Happy", sans-serif;
+  background-color: #f7f7f7;
+}
+
+.signup-container {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.signup-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 0;
+  background-color: #f8f9fa;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-title {
+  margin: 10px 0;
+  font-family: "Happy Bold";
+  font-size: 24px;
+  text-align: center;
+}
+
+.signup-form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input1-group input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 20px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.nickname-check-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #ff6600;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nickname-check-btn:hover {
+  background-color: #cc5200;
+}
+
+.voice-input1-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #ff6600;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.voice-input-btn svg {
+  margin-right: 5px;
+}
+
+.voice-input-btn:hover {
+  background-color: #cc5200;
+}
+
+.error-message {
+  padding: 10px;
+  font-family: "Happy";
+  font-size: 16px;
+  color: red;
+  text-align: center;
+}
+
+.signup-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px;
+  gap: 10px; /* 간격 추가 */
+}
+
+.signup-back-btn,
+.enabled-signup-next-btn,
+.disabled-signup-next-btn {
+  width: 48%;
+  margin: 10px 0;
+  padding: 15px 0;
+  font-family: "Happy";
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.signup-back-btn {
+  background-color: #adadad;
+  color: #fff;
+}
+
+.signup-back-btn:hover {
+  background-color: #6a6a6a;
+}
+
+.enabled-signup-next-btn {
+  background-color: #ff6600;
+  color: #fff;
+}
+
+.enabled-signup-next-btn:hover {
+  background-color: #cc5200;
+}
+
+.disabled-signup-next-btn {
+  background-color: #ffcdac;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+@media (max-width: 400px) {
+  .signup-container {
+    padding: 0 10px;
+  }
+
+  .signup-title {
+    font-size: 20px;
+  }
+
+  .input-group input[type="text"] {
+    font-size: 18px;
+  }
+
+  .nickname-check-btn,
+  .voice-input1-btn,
+  .signup-back-btn,
+  .enabled-signup-next-btn,
+  .disabled-signup-next-btn {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .error-message {
+    font-size: 14px;
+  }
+}
