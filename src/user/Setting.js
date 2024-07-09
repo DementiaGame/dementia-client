@@ -15,7 +15,7 @@ const Setting = () => {
   const [faceAuth, setFaceAuth] = useState(false); // 생체 인증 설정
   const [faceData, setFaceData] = useState(""); // 얼굴 인식 데이터
   const [nickName, setNickName] = useState("");
-  const [birthyear, setBirthyear] = useState(0);
+  const [birthYear, setBirthYear] = useState(0);
   const [gender, setGender] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -129,25 +129,35 @@ const Setting = () => {
 
         setUser(userData);
         setNickName(userData.data.nickName);
-        setBirthyear(Number(userData.data.birthYear));
+        setBirthYear(Number(userData.data.birthYear));
         setGender(userData.data.gender === 'MALE' ? '남성' : '여성');
         setFaceAuth(userData.data.faceData !== null);
         setProfileImage(userData.data.profileImage);
         setIsLoading(false);
 
+            // Recoil 상태 업데이트
+        // setUserState({
+        //   userIdx,
+        //   nickName,
+        //   birthyear,
+        //   gender,
+        //   faceData,
+        //   profileImage,
+        //   effects,
+        //   faceAuth,
+        // });
+
         // Recoil 상태 업데이트
-        setUserState((prevState) => {
-          const newState = {
-            birthyear: birthyear,
-            gender: gender,
-            faceData: userData.data.faceData,
-            profileImage: profileImage,
-            role: userData.data.role,
-            effects: effects,
-            faceAuth: faceAuth,
-          };
-          console.log("Updated Recoil state:", newState);
-          return newState;
+        setUserState({
+          userIdx: userData.data.userIdx,
+          nickName: userData.data.nickName,
+          birthYear: Number(userData.data.birthYear),
+          gender: userData.data.gender,
+          faceData: userData.data.faceData,
+          profileImage: userData.data.profileImage,
+          role: userData.data.role,
+          effects: effects,
+          faceAuth: faceAuth,
         });
 
       } catch (error) {
@@ -199,7 +209,7 @@ const Setting = () => {
                 <div className="user-info">
                   <div className="user-info-name">{nickName}</div>
                   <div className="place-hoder">&nbsp;</div>
-                  <div className="user-info-detail">{birthyear}년생, {gender}</div>
+                  <div className="user-info-detail">{birthYear}년생, {gender}</div>
                 </div>
                 <div className="profile-image">
                   { profileImage === null ? 
