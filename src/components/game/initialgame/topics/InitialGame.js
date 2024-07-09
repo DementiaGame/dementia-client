@@ -109,6 +109,7 @@ const InitialGame = () => {
 
       navigate(`/questions/${userIdx}`, {
         state: { questions: response.data.data.questions },
+        selectedTopic: response.data,
       });
     } catch (error) {
       console.error(
