@@ -10,6 +10,7 @@ import NickNameStep from "./user/signup/NickNameStep";
 import PasswordStep from "./user/signup/PasswordStep";
 import CompleteSignUp from "./user/signup/CompleteSignup";
 import Setting from "./user/Setting";
+import EditInfo from "./user/EditInfo";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signup/password-step" element={<PasswordStep />}/>
         <Route path="/signup/complete-signup" element={<CompleteSignUp />}/>
         <Route path="/user/setting" element={<Setting />}></Route>
+        <Route path="/user/setting/edit" element={<EditInfo />}/>
       </Routes>
     </Router>
   );
