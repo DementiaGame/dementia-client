@@ -1,0 +1,243 @@
+.edit {
+  max-width: 400px; /* 핸드폰 크기로 고정 */
+  margin: 0 auto;
+  height: 100vh; /* 전체 화면 높이 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-form-group {
+  width: auto;
+  height: auto;
+}
+
+/* 유저 프로필 구간 */
+
+.edit-profile-group {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  height: 200px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.edit-profile-group .edit-user-info-group {
+  display: flex;
+  justify-content: center;
+  padding: 25px 12px 10px 12px;
+}
+
+.edit-profile-group .edit-user-info-group .edit-user-info {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.edit-user-info-name {
+  font-family: "Happy";
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.user-info-detail {
+  font-family: "Happy";
+  font-size: 18px;
+  color: #909090;
+}
+
+.edit-profile-image {
+display: flex;
+justify-content: center;
+width: 90px;
+height: 90px;
+border-radius: 50%;
+cursor: pointer;
+}
+
+.avatar {
+width: 90px; /* 원하는 크기로 조정 */
+height: 90px;
+border-radius: 50%; /* 원 모양으로 잘라줌 */
+border: none;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: #ccc; /* 초기 배경색 (선택적으로 사용) */
+}
+
+/* 정보 수정 구간 */
+
+.nickName-edit-group .nickName-input [type="text"] {
+  width: 100%;
+  padding: 20px;
+  margin-top: 10px;
+  font-family: "Happy";
+  font-size: 20px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.date-picker-container {
+  display: flex;
+  justify-content: start;
+  width: 200px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 24px;
+  /* border: 1px solid #ccc; */
+  padding: 20px;
+}
+
+.year-dropdown {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 성별 선택 버튼 */
+.gender-edit-group .edit-btn-group {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .selected-female-edit-bnt,
+  .selected-male-edit-bnt {
+    margin: 10px 5px;
+    padding: 20px 50px;
+    font-family: "Happy";
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .selected-female-edit-bnt:hover,
+  .selected-male-edit-bnt:hover {
+    background-color: #cc5200;
+  }
+  
+  .unselected-female-edit-bnt,
+  .unselected-male-edit-bnt {
+    margin: 10px 5px;
+    padding: 20px 50px;
+    font-family: "Happy";
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #ffffff;
+    color: #7f7f7f;
+    border: 1px solid;
+    border-color: #dedede;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .unselected-female-edit-bnt:hover,
+  .unselected-male-edit-bnt:hover {
+    background-color: #6d6d6d;
+  }
+
+  .info-save-btn {
+    width: 100%;
+    padding: 20px;
+    background-color: #ff6600;
+    color: #fff;
+    font-size: 22px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+.edit-btn-group .info-save-btn:hover {
+  background-color: #cc5200;
+}
+
+/*모달창 */  
+.edit-modal-container {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0px;
+}
+  
+.edit-modal-content {
+  background-color: #ffffff;
+  width: 20em;
+  height: 15em;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.edit-modal-container .modal-message {
+  font-family: "Happy";
+  font-size: 22px;
+}
+
+.edit-modal-btns {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+  
+.edit-modal-container .agree-modal-btn,
+.edit-modal-container .disagree-modal-btn {
+  width: 40%;
+  font-family: "Happy";
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0px 5px;
+  padding: 12px 15px;
+  justify-content: center;
+}
+
+.edit-modal-container .agree-modal-btn {
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+}
+
+.edit-modal-container .disagree-modal-btn {
+  background-color: #ffffff;
+  color: #ff6600;
+  border: 1px solid;
+}
+
+.edit-modal-message {
+  font-family: "Happy";
+  font-size: 20px;
+}
+
+.check-password-group .input-group [type="password"]{
+  width: 100%;
+  padding: 1em;
+  margin-top: 0.1em;
+  font-family: "Happy";
+  font-size: 20px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
