@@ -4,7 +4,9 @@ import "./index.css";
 import App from "./App";
 import { RecoilRoot } from "recoil";
 import reportWebVitals from "./reportWebVitals";
+import { recoilPersist } from 'recoil-persist';
 
+const { RecoilPersist, updateState } = recoilPersist();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <RecoilRoot>
