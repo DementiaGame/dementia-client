@@ -1,89 +1,83 @@
+body {
+  margin: 0;
+  font-family: "Happy", sans-serif;
+  background-color: #f7f7f7; /* 아주 살짝 회색 배경 */
+}
 
 .signin-container {
   max-width: 400px; /* 핸드폰 크기로 고정 */
   margin: 0 auto;
   display: flex;
-  overflow: auto; 
-  height: 100vh; /* 전체 화면 높이 */
   flex-direction: column; /* 수직 방향 flex */
+  height: 100vh; /* 전체 화면 높이 */
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-.signin-title{
-  margin-top: 130px;
+header {
+  flex-shrink: 0; /* 헤더가 줄어들지 않도록 */
+  margin: 0; /* 헤더와 메인 사이의 간격 제거 */
+  padding-top: 20px; /* 상단 패딩 조정 */
+}
+
+main {
+  flex-grow: 1; /* 메인 컨텐츠가 남은 공간을 차지하도록 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 중앙으로 정렬된 것을 상단 정렬로 변경 */
+}
+
+footer {
+  flex-shrink: 0; /* 푸터가 줄어들지 않도록 */
+}
+
+.signin-title {
+  margin: 0; /* 타이틀과 입력창 사이 간격 제거 */
+  padding: 10px 0; /* 타이틀과 입력창 사이 간격 조정 */
   font-family: "Happy Bold";
-  font-size: 34px;
+  font-size: 24px;
   text-align: center;
 }
 
 .signin-form-group {
-  margin-bottom: 200px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
-  margin: 10px;
-  width: auto;
-  height: auto;
+  margin: 8px;
 }
 
 .signin-form-group .input-group {
   width: 100%;
   display: flex;
-  flex-direction: column; /* 수직 방향 flex */
-}
-
-.signin-form-group .input-group [type="text"] {
-  width: 100%;
-  padding: 20px;
-  margin-top: 5px;
-  font-size: 22px;
-  border: 1px solid #dbdbdb;
-  border-radius: 8px;
-  box-sizing: border-box;
-}
-
-.signin-form-group .input-group [type="password"] {
-  width: 100%;
-  padding: 20px;
-  margin-top: 5px;
-  font-size: 22px;
-  border: 1px solid #dbdbdb;
-  border-radius: 8px;
-  box-sizing: border-box;
-}
-
-.signin-footer {
-  display: flex;
   justify-content: center;
-  padding: 0 10px 0 10px;
-  margin-top: 1--;
-}
-.signin-footer .signin-btn-group {
-  width: 100%;
-  display: flex;
   flex-direction: column; /* 수직 방향 flex */
 }
 
-.signin-footer .signin-btn,
-.signin-footer .faceauth-btn {
+.signin-form-group .input-group input[type="text"],
+.signin-form-group .input-group input[type="password"] {
   width: 100%;
-  padding: 20px;
-  background-color: #ff6600;
-  color: #fff;
-  font-size: 22px;
-  border: none;
+  padding: 12px;
+  margin-top: 10px; /* 입력창 사이 간격 조정 */
+  font-size: 16px; /* 폰트 사이즈 조정 */
+  border: 1px solid #dbdbdb;
   border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
+  box-sizing: border-box;
 }
 
-.signin-footer .signin-btn:hover,
-.signin-footer .faceauth-btn:hover {
-  background-color: #cc5200;
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* 간격 조정 */
+}
+
+.remember-me label {
+  margin-left: 8px; /* 체크박스와 텍스트 간격 조정 */
+  font-size: 14px;
 }
 
 .signup-btn {
-  padding-top: 190px;
-  margin: 150px 0 10px 0;
-  font-size: 22px;
+  margin: 20px;
+  font-size: 14px;
   display: flex;
   justify-content: center;
 }
@@ -97,65 +91,56 @@
   text-decoration: underline;
 }
 
-/*모달창 */  
-.signin-modal-container {
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+.signin-footer {
   display: flex;
   justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 0px;
-}
-  
-.signin-modal-content {
-  background-color: #ffffff;
-  width: 250px;
-  height: 160px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  border-radius: 8px;
+  padding: 0 10px 0 10px;
+  margin-top: 10px;
 }
 
-.signin-modal-container .modal-message {
-  font-family: "Happy";
-  font-size: 22px;
-}
-
-.signin-modal-btns {
+.signin-footer .input-group {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-  
-.signin-modal-container .agree-modal-btn,
-.signin-modal-container .disagree-modal-btn {
-  width: 40%;
-  font-family: "Happy";
-  font-size: 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 0px 5px;
-  padding: 12px 15px;
-  justify-content: center;
+  flex-direction: column; /* 수직 방향 flex */
 }
 
-.signin-modal-container .agree-modal-btn {
+.signin-footer .signin-btn,
+.signin-footer .faceauth-btn {
+  width: 100%;
+  padding: 15px; /* 버튼 크기 조정 */
   background-color: #ff6600;
   color: #fff;
+  font-size: 18px; /* 폰트 사이즈 조정 */
   border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-.signin-modal-container .disagree-modal-btn {
-  background-color: #ffffff;
-  color: #ff6600;
-  border: 1px solid;
+.signin-footer .signin-btn:hover,
+.signin-footer .faceauth-btn:hover {
+  background-color: #cc5200;
+}
+
+@media (max-width: 400px) {
+  .signin-container {
+    padding: 0 10px;
+  }
+
+  .signin-form-group .input-group input[type="text"],
+  .signin-form-group .input-group input[type="password"] {
+    font-size: 14px;
+  }
+
+  .signin-footer .signin-btn,
+  .signin-footer .faceauth-btn {
+    font-size: 14px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    padding: 12px; /* 모바일에서 버튼 크기 조정 */
+  }
+
+  .signup-btn {
+    font-size: 14px;
+  }
 }

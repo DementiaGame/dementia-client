@@ -12,6 +12,10 @@ import CompleteSignUp from "./user/signup/CompleteSignup";
 import Setting from "./user/Setting";
 import MultiplayerGameLobby from "./components/game/multigame/MultiplayerGameLobby";
 import RoomWaitingArea from "./components/game/multigame/RoomWaitingArea";
+import RoomDetail from "./components/game/multigame/RoomDetail";
+import MultiplayerGamePlay from "./components/game/multigame/MultiplayerGamePlay";
+import MemoryGame from "./components/game/memorygame/MemoryGame";
+import DifficultySelection from "./components/game/memorygame/DifficultySelection";
 
 function App() {
   return (
@@ -25,6 +29,15 @@ function App() {
           path="/multiplayergame/room/:roomId"
           element={<RoomWaitingArea />}
         />
+        <Route
+          path="/multiplayergame/room-detail/:roomId"
+          element={<RoomDetail />}
+        />
+        <Route
+          path="/multiplayergame/play/:roomId"
+          element={<MultiplayerGamePlay />}
+        />
+
         <Route path="/questions/:userId" element={<InitialGameQuestions />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup/birthyear-step" element={<BirthdayStep />} />
@@ -33,6 +46,11 @@ function App() {
         <Route path="/signup/password-step" element={<PasswordStep />} />
         <Route path="/signup/complete-signup" element={<CompleteSignUp />} />
         <Route path="/user/setting" element={<Setting />}></Route>
+        <Route
+          path="/memorygame/difficulty"
+          element={<DifficultySelection />}
+        />
+        <Route path="/memorygame/play" element={<MemoryGame />} />
       </Routes>
     </Router>
   );
