@@ -21,6 +21,7 @@ const NickNameStep = () => {
   const handleDuplicateNickname = async (event) => {
     try {    
       const params = { nickName: nickName };
+      
       axios
       .get(`${apiUrl}/users/existnickname`, { params })
       .then((response) => {

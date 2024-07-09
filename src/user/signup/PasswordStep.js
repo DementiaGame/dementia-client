@@ -124,9 +124,9 @@ const PasswordStep = () => {
           </div>
         </div>
         <div className="signup-footer">
-          <butto className="signup-back-bnt" onClick={handleGoBack}>
+          <button className="signup-back-bnt" onClick={handleGoBack}>
             이전
-          </butto>
+          </button>
           <button
             className={
               buttonDisabled

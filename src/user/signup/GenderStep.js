@@ -66,12 +66,11 @@ const GenderStep = () => {
               <button className={MaleButton ? "selected-male-bnt" : "unselected-male-bnt"} onClick={() => handleGender("MALE")}>남성</button>
             </div>
         </div>
-        <div className="signup-footer">
+      </body>
+      <div className="signup-footer">
           <button className="signup-back-bnt" onClick={handleGoBack}>이전</button>
           <button className={buttonDisabled ? "disabled-signup-next-bnt" : "enabled-signup-next-bnt"} onClick={handleNext} disabled={buttonDisabled}>다음</button>
         </div>
-      </body>
-      <footer></footer>
     </div>
   );
 };

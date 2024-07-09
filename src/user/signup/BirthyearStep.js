@@ -63,49 +63,55 @@ const BirthyearStep = () => {
           <MdClose size={24} onClick={handleExit}/>
         </button>
       </header>
-      <body>
-        <div>
-          <h2 className="signup-title">
-            <b>태어난 해</b>를 눌러주세요.
-          </h2>
-          <div className="signup-form-group">
-            <div className="input-group">
-              <div className="birthyear-display">
-                <div>
-                  {birthyear}
-                </div>
+      <main>
+        <div className="signup-input-form">
+          <div>
+            <h2 className="signup-title">
+              <b>태어난 해</b>를 눌러주세요.
+            </h2>
+            <div className="signup-form-group">
+              <div className="input-group">
+                <div className="birthyear-display">
+                  <div>
+                    {birthyear}
+                  </div>
+                  </div>
+              </div>
+              <div className="error-message">
+                  {<div style={{ color: 'red' }}>
+                  {birthyearError !== "" ? (birthyearError) : (<br/>)}</div>}
                 </div>
             </div>
-            <div className="error-message">
-                {<div style={{ color: 'red' }}>
-                {birthyearError !== "" ? (birthyearError) : (<br/>)}</div>}
-              </div>
           </div>
-        </div>
-        <div className="number-pad">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "전체삭제", "0", "지우기",].map((num, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                if (num === "전체삭제") {
-                  handleClear();
-                } else if (num === "지우기") {
-                  handleDelete();
-                } else {
-                  handleButtonClick(num);
-                }
-              }}
-            >
-              {num}
-            </button>
-          ))}
-        </div>
+          <div className="number-pad-container">
+            <div className="number-pad">
+              {["1", "2", "3", "4", "5", "6", "7", "8", "9", "전체삭제", "0", "지우기",].map((num, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    if (num === "전체삭제") {
+                      handleClear();
+                    } else if (num === "지우기") {
+                      handleDelete();
+                    } else {
+                      handleButtonClick(num);
+                    }
+                  }}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
+          </div>
+        
+        
         <div className="signup-footer">
           <button className="signup-back-bnt" onClick={handleGoBack}>이전</button>
           <button className={buttonDisabled ? "disabled-signup-next-bnt" : "enabled-signup-next-bnt"} onClick={handleNext} disabled={buttonDisabled}>다음</button>
         </div>
-      </body>
-      <footer></footer>
+        
+      </div>
+      </main>
     </div>
   );
 };
