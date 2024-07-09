@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./SignupStep.css";
+import "./CompleteSignUp.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
@@ -20,28 +20,28 @@ const CompleteSignUp = () => {
   };
 
   return (
-    <div className="signup-container">
-      <header className="signup-header">
-        <button className="close-btn">
+    <div className="signup-container-4">
+      <header className="signup-header-4">
+        <button className="close-btn-4">
           <MdClose size={24} onClick={handleExit} />
         </button>
       </header>
-      <body>
+      <main>
         <div>
-          <div className="signup-complete-icon">
+          <div className="signup-complete-icon-4">
             <FaCheckCircle size={110} color="#ff6600" />
           </div>
-          <div className="signup-complete-message">가입 완료</div>
-          <div className="welcome-message">
+          <div className="signup-complete-message-4">가입 완료</div>
+          <div className="welcome-message-4">
             {userInfo.nickName}님, 반가워요!
           </div>
         </div>
-        <div className="signup-footer">
-          <button className="next-bnt" onClick={handleNext}>
+        <div className="signup-footer-4">
+          <button className="next-btn-4" onClick={handleNext}>
             다음
           </button>
         </div>
-      </body>
+      </main>
       <footer></footer>
     </div>
   );
