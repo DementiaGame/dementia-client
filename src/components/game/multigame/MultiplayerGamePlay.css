@@ -1,0 +1,86 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 400px;
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.close-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.game-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 20px;
+}
+
+.game-body {
+  text-align: center;
+  padding: 20px;
+  padding-top: 80px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.user-list {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.question-container {
+  margin: 20px 0;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question-text {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.answer-input {
+  font-size: 24px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 2px solid #ff6600;
+  border-radius: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #ff6600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

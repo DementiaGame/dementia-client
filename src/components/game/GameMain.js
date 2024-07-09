@@ -14,10 +14,11 @@ const GameMain = () => {
     setSelectedGame(game);
     if (game === "초성게임") {
       navigate("/initialgame");
+    } else if (game === "기억력 게임") {
+      navigate("/memorygame/difficulty"); // 기억력 게임 선택 시 난이도 선택 화면으로 이동
     } else if (game === "멀티 플레이어 게임") {
       navigate("/multiplayergame"); // 멀티 플레이어 게임 선택 시 대기실 목록으로 이동
     }
-    // 다른 게임의 경우 다른 경로로 이동
   };
 
   const today = new Date();
@@ -79,7 +80,7 @@ const GameMain = () => {
             <img src={thirdIcon} alt="멀티 플레이어 게임" className="icon" />
             <div className="game-info">
               <div className="game-time">여러명이 즐기는</div>
-              <div className="game-title">사칙연산 게임</div>
+              <div className="game-title">멀티 플레이어 게임</div>
             </div>
           </div>
           <FaAngleRight className="arrow-icon" />

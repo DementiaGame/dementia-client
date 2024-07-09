@@ -1,11 +1,4 @@
-body {
-  margin: 0;
-  font-family: "Happy Bold";
-  background-color: #f7f7f7;
-  overflow: hidden;
-}
-
-.lobby-container {
+.room-detail-container {
   max-width: 400px;
   margin: 0 auto;
   height: 100vh;
@@ -13,7 +6,7 @@ body {
   flex-direction: column;
 }
 
-.lobby-header {
+.room-detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,26 +22,15 @@ body {
   transform: translateX(-50%);
 }
 
-.lobby-title {
+.room-detail-title {
   flex-grow: 1;
   text-align: center;
   margin: 0;
   font-size: 20px;
 }
 
-.header-icons-left,
-.header-icons-right {
+.header-icons {
   display: flex;
-}
-
-.header-icons-left {
-  justify-content: flex-start;
-  width: 50%;
-}
-
-.header-icons-right {
-  justify-content: flex-end;
-  width: 50%;
 }
 
 .header-icon {
@@ -57,20 +39,20 @@ body {
   cursor: pointer;
 }
 
-.lobby-main {
+.room-detail-main {
   text-align: center;
   padding: 80px 20px 20px;
   flex-grow: 1;
   overflow-y: auto;
 }
 
-.room-grid {
+.user-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
-.room-card {
+.user-card {
   background: white;
   border-radius: 10px;
   padding: 20px;
@@ -79,34 +61,27 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  border: 2px solid transparent;
   height: 120px;
 }
 
-.room-card:hover {
-  border: 2px solid #ff7f00;
-}
-
-.room-icon {
+.user-avatar {
   font-size: 36px;
   margin-bottom: 10px;
-  color: #ff7f00;
 }
 
-.room-title {
+.user-name {
   font-family: "Happy Bold";
   font-size: 18px;
   margin: 0;
 }
 
-.room-capacity {
+.user-score {
   font-size: 14px;
   color: #888;
   margin: 5px 0 0;
 }
 
-.create-room-button {
+.ready-button {
   display: block;
   width: 100%;
   max-width: 360px;
@@ -121,31 +96,6 @@ body {
   transition: background-color 0.3s;
 }
 
-.create-room-button:hover {
-  background-color: #e66e00;
-}
-
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.pagination-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #ff7f00;
-  color: white;
-  transition: background-color 0.3s;
-}
-
-.pagination-button:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-}
-
-.pagination-button:hover:not(:disabled) {
+.ready-button:hover {
   background-color: #e66e00;
 }

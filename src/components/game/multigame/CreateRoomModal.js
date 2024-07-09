@@ -6,10 +6,9 @@ const CreateRoomModal = ({ onClose, onCreate }) => {
 
   const handleCreate = () => {
     if (roomName.trim()) {
-      console.log("Room name entered:", roomName);
       onCreate(roomName);
     } else {
-      console.error("Room name is empty");
+      alert("방 이름을 입력하세요.");
     }
   };
 

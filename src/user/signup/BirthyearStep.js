@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./SignupStep.css";
+import "./BirthyearStep.css";
 import { useNavigate } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 
@@ -15,7 +15,7 @@ const BirthyearStep = () => {
     } else {
       setButtonDisabled(true);
     }
-  }, [birthyear])
+  }, [birthyear]);
 
   const validateBirthyear = (year) => {
     const yearRegex = /^(19[0-9]{2}|20[0-9]{2}|2100)$/;
@@ -36,54 +36,75 @@ const BirthyearStep = () => {
     setBirthyear("");
   };
 
-  const handleNext = async (event) => {
+  const handleNext = async () => {
     if (birthyear.length === 4 && validateBirthyear(birthyear)) {
       navigate("/signup/gender-step", {
         state: {
-        birthYear: Number(birthyear),
-        }
+          birthYear: Number(birthyear),
+        },
       });
     } else {
       setBirthyearError("태어난 해를 다시 눌러주세요.");
     }
   };
 
-  const handleGoBack = async (event) => {
-    navigate(-1)
-  }
+  const handleGoBack = async () => {
+    navigate(-1);
+  };
 
-  const handleExit = async (event) => {
-    navigate('/signin')
-  }
+  const handleExit = async () => {
+    navigate("/signin");
+  };
 
   return (
     <div className="signup-container">
       <header className="signup-header">
-        <button className="close-btn">
-          <MdClose size={24} onClick={handleExit}/>
+        <button className="close-btn" onClick={handleExit}>
+          <MdClose size={24} />
         </button>
       </header>
-      <body>
-        <div>
-          <h2 className="signup-title">
-            <b>태어난 해</b>를 눌러주세요.
-          </h2>
-          <div className="signup-form-group">
-            <div className="input-group">
-              <div className="birthyear-display">
-                <div>
-                  {birthyear}
-                </div>
-                </div>
+      <main>
+        <h2 className="signup-title">
+          <b>태어난 해</b>를 눌러주세요.
+        </h2>
+        <div className="signup-form-group">
+          <div className="input-group">
+            <div className="birthyear-display">
+              {Array(4)
+                .fill()
+                .map((_, idx) => (
+                  <div
+                    key={idx}
+                    className={`birthyear-digit ${
+                      birthyear[idx] ? "filled" : ""
+                    }`}
+                  >
+                    {birthyear[idx] || ""}
+                  </div>
+                ))}
             </div>
-            <div className="error-message">
-                {<div style={{ color: 'red' }}>
-                {birthyearError !== "" ? (birthyearError) : (<br/>)}</div>}
-              </div>
+          </div>
+          <div className="error-message">
+            <div style={{ color: "red" }}>
+              {birthyearError !== "" ? birthyearError : <br />}
+            </div>
           </div>
         </div>
         <div className="number-pad">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "전체삭제", "0", "지우기",].map((num, index) => (
+          {[
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "전체삭제",
+            "0",
+            "지우기",
+          ].map((num, index) => (
             <button
               key={index}
               onClick={() => {
@@ -101,10 +122,19 @@ const BirthyearStep = () => {
           ))}
         </div>
         <div className="signup-footer">
-          <button className="signup-back-bnt" onClick={handleGoBack}>이전</button>
-          <button className={buttonDisabled ? "disabled-signup-next-bnt" : "enabled-signup-next-bnt"} onClick={handleNext} disabled={buttonDisabled}>다음</button>
+          <button
+            className={
+              buttonDisabled
+                ? "disabled-signup-next-btn"
+                : "enabled-signup-next-btn"
+            }
+            onClick={handleNext}
+            disabled={buttonDisabled}
+          >
+            다음
+          </button>
         </div>
-      </body>
+      </main>
       <footer></footer>
     </div>
   );
