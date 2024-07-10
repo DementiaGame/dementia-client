@@ -11,6 +11,7 @@ body {
   margin: 0 auto;
   height: 100vh; /* 전체 화면 높이 */
   overflow: hidden;
+  width: 100%; /* 전체 너비를 채움 */
 }
 
 .waiting-header {
@@ -21,19 +22,21 @@ body {
   top: 0;
   width: 100%;
   max-width: 400px;
+  padding: 10px; /* 패딩 추가 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* 최상위에 위치하도록 설정 */
 }
 
 .waiting-title {
   flex-grow: 1;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px; /* 폰트 크기 조정 */
 }
 
 .waiting-body {
   text-align: center;
   padding: 20px;
-  padding-top: 80px; /* 헤더 높이 + 여유 공간 */
+  padding-top: 60px; /* 헤더 높이 + 여유 공간 */
   flex-grow: 1;
   overflow-y: auto; /* 세로 스크롤 허용 */
 }
@@ -46,11 +49,11 @@ body {
 }
 
 .user-item {
-  width: 42%; /* 한 줄에 두 개씩 배치 */
+  width: 40%; /* 한 줄에 두 개씩 배치 */
   background: white;
   border-radius: 10px;
-  padding: 30px 10px; /* 패딩 조정 */
-  margin-bottom: 50px;
+  padding: 20px 10px; /* 패딩 조정 */
+  margin-bottom: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: flex;
@@ -82,7 +85,7 @@ body {
 .waiting-info {
   text-align: center;
   font-size: 16px;
-  margin-top: auto; /* 버튼을 하단으로 밀기 위해 추가 */
+  margin-top: 20px; /* 간격 추가 */
 }
 
 .start-button {
@@ -91,7 +94,7 @@ body {
   background: #ff7f00; /* 주황색 배경 */
   color: white;
   font-family: "Happy Bold";
-  font-size: 25px;
+  font-size: 20px; /* 버튼 폰트 크기 조정 */
   border: none;
   border-radius: 5px;
   cursor: pointer;

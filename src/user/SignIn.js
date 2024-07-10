@@ -37,6 +37,10 @@ const SignIn = () => {
       });
   };
 
+  const handleBiometricAuth = () => {
+    navigate("/biometric-auth");
+  };
+
   return (
     <div className="signin-container">
       <header>
@@ -74,7 +78,11 @@ const SignIn = () => {
           </div>
           <div className="signin-footer">
             <div className="input-group">
-              <button type="button" className="faceauth-btn">
+              <button
+                type="button"
+                className="faceauth-btn"
+                onClick={handleBiometricAuth}
+              >
                 생체 인증
               </button>
               <button type="submit" className="signin-btn">

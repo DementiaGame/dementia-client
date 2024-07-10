@@ -150,7 +150,6 @@ body {
   color: red; /* Adjust as needed */
 }
 
-
 .actions {
   display: flex;
   justify-content: center;
@@ -210,7 +209,6 @@ body {
   }
 }
 
-
 .timeout-modal {
   position: fixed;
   top: 0;
@@ -257,3 +255,74 @@ body {
   cursor: pointer;
 }
 
+.congratulations-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1002;
+}
+
+.congratulations-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+
+.congratulations-icon {
+  font-size: 48px;
+  color: red;
+}
+
+.congratulations-message {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  border: none;
+  background-color: orange;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkorange;
+}
+
+button:focus {
+  outline: none;
+}
+
+.congratulations-content p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.congratulations-content strong {
+  color: red;
+}
+
+.correct-icon {
+  font-size: 48px;
+  color: purple;
+}
+
+.correct-message {
+  color: purple;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}

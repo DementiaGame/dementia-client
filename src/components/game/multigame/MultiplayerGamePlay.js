@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import "./MultiplayerGamePlay.css";
-import { FaTimes } from "react-icons/fa";
+import {
+  FaTimes,
+  FaUserCircle,
+  FaHeart,
+  FaPlay,
+  FaForward,
+  FaCheck,
+  FaTimesCircle,
+} from "react-icons/fa";
 import { userState } from "../../../recoil/userState"; // userState import
 
 const MultiplayerGamePlay = () => {
@@ -12,14 +20,28 @@ const MultiplayerGamePlay = () => {
   const [question, setQuestion] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
   const [score, setScore] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [showCorrectModal, setShowCorrectModal] = useState(false);
+  const [showIncorrectModal, setShowIncorrectModal] = useState(false);
 
   useEffect(() => {
+    // Fetch question
     fetch(`http://13.209.160.116:8080/api/multiplayer/generate-question`)
       .then((response) => response.json())
       .then((data) => {
         setQuestion(data);
       })
       .catch((error) => console.error("Error fetching question:", error));
+
+    // Fetch users in room
+    fetch(
+      `http://13.209.160.116:8080/api/multiplayer/room-users?roomId=${roomId}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((error) => console.error("Error fetching room users:", error));
   }, [roomId]);
 
   const handleAnswerChange = (e) => {
@@ -27,35 +49,47 @@ const MultiplayerGamePlay = () => {
   };
 
   const handleSubmitAnswer = () => {
-    fetch(`http://13.209.160.116:8080/api/multiplayer/submit-answer`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: currentUser.userIdx, // currentUser를 사용하여 userId 설정
-        questionId: question.questionIdx,
-        answer: userAnswer,
-      }),
-    })
-      .then((response) => response.json())
-      .then((isCorrect) => {
-        if (isCorrect) {
-          setScore((prevScore) => prevScore + 1);
-          fetch(`http://13.209.160.116:8080/api/multiplayer/generate-question`)
-            .then((response) => response.json())
-            .then((data) => {
-              setQuestion(data);
-              setUserAnswer("");
-            })
-            .catch((error) =>
-              console.error("Error fetching next question:", error)
-            );
-        } else {
-          console.error("Wrong answer");
-        }
-      })
-      .catch((error) => console.error("Error submitting answer:", error));
+    let correctAnswer;
+    try {
+      correctAnswer = eval(question.question);
+    } catch (error) {
+      console.error("Error evaluating question:", error);
+      return;
+    }
+
+    if (question && parseInt(userAnswer) === correctAnswer) {
+      setShowCorrectModal(true);
+      setScore((prevScore) => prevScore + 1);
+    } else {
+      setShowIncorrectModal(true);
+    }
+
+    setTimeout(() => {
+      setShowCorrectModal(false);
+      setShowIncorrectModal(false);
+      // Fetch new question
+      fetch(`http://13.209.160.116:8080/api/multiplayer/generate-question`)
+        .then((response) => response.json())
+        .then((data) => {
+          setQuestion(data);
+          setUserAnswer("");
+        })
+        .catch((error) =>
+          console.error("Error fetching next question:", error)
+        );
+    }, 2000);
+  };
+
+  const handleNumberClick = (number) => {
+    setUserAnswer((prev) => prev + number);
+  };
+
+  const handleClearAnswer = () => {
+    setUserAnswer("");
+  };
+
+  const handleDeleteLast = () => {
+    setUserAnswer((prev) => prev.slice(0, -1));
   };
 
   return (
@@ -66,7 +100,20 @@ const MultiplayerGamePlay = () => {
       </header>
       <div className="game-body">
         <div className="user-list">
-          {/* 여기에 현재 방에 참여한 사용자들을 표시 */}
+          {users.map((user) => (
+            <div key={user.idx} className="user-item">
+              <FaUserCircle className="user-icon" />
+              <span className="user-name">{user.userName}</span>
+              <span className="user-score">{user.score}</span>
+              <div className="user-hearts">
+                {Array(user.lives)
+                  .fill()
+                  .map((_, i) => (
+                    <FaHeart key={i} className="heart-icon" />
+                  ))}
+              </div>
+            </div>
+          ))}
         </div>
         <div className="question-container">
           {question && (
@@ -77,17 +124,67 @@ const MultiplayerGamePlay = () => {
                 className="answer-input"
                 value={userAnswer}
                 onChange={handleAnswerChange}
-                placeholder="답을 입력하세요"
+                placeholder="?"
+                readOnly
               />
             </>
           )}
         </div>
+        <div className="keypad">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
+            <button
+              key={number}
+              className="keypad-button"
+              onClick={() => handleNumberClick(number.toString())}
+            >
+              {number}
+            </button>
+          ))}
+          <button
+            className="keypad-button clear-button"
+            onClick={handleClearAnswer}
+          >
+            전체삭제
+          </button>
+          <button
+            className="keypad-button"
+            onClick={() => handleNumberClick("0")}
+          >
+            0
+          </button>
+          <button
+            className="keypad-button delete-button"
+            onClick={handleDeleteLast}
+          >
+            지우기
+          </button>
+        </div>
         <div className="button-container">
-          <button className="submit-button" onClick={handleSubmitAnswer}>
-            제출
+          <button className="action-button submit-button">
+            찬스 <FaPlay />
+          </button>
+          <button
+            className="action-button submit-button"
+            onClick={handleSubmitAnswer}
+          >
+            제출 <FaPlay />
           </button>
         </div>
       </div>
+      {showCorrectModal && (
+        <div className="modal correct">
+          <FaCheck className="modal-icon" />
+          <p>정답이에요! 😍</p>
+          <p>{score + 1}번째로 정답을 맞혔어요.</p>
+        </div>
+      )}
+      {showIncorrectModal && (
+        <div className="modal incorrect">
+          <FaTimesCircle className="modal-icon" />
+          <p>오답이에요. 😢</p>
+          <p>다시 생각해보세요!</p>
+        </div>
+      )}
     </div>
   );
 };
