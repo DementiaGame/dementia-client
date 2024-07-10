@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./RoomWaitingArea.css";
 import { FaAngleLeft, FaUserCircle } from "react-icons/fa";
-import useWebSocket from "./useWebSocket";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
 
@@ -12,12 +11,6 @@ const RoomWaitingArea = () => {
   const [users, setUsers] = useState([]);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [user] = useRecoilState(userState); // 현재 사용자 정보
-
-  const onGameStart = () => {
-    navigate(`/multiplayergame/play/${roomId}`);
-  };
-
-  useWebSocket(roomId, onGameStart, setUsers);
 
   useEffect(() => {
     fetch(`http://13.209.160.116:8080/api/multiplayer/room/${roomId}`)
@@ -37,22 +30,31 @@ const RoomWaitingArea = () => {
       .catch((error) => console.error("Error fetching room users:", error));
   }, [roomId]);
 
-  const handleStartGame = () => {
-    fetch(`http://13.209.160.116:8080/api/multiplayer/start-game`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ roomId: Number(roomId) }), // body에 JSON 형식으로 roomId 추가
-    })
-      .then((response) => {
-        if (!response.ok) {
-          response.json().then((data) => {
-            console.error("Failed to start the game", data);
-          });
+  const handleStartGame = async () => {
+    try {
+      const response = await fetch(
+        `http://13.209.160.116:8080/api/multiplayer/start-game`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ roomId: Number(roomId) }), // body에 JSON 형식으로 roomId 추가
         }
-      })
-      .catch((error) => console.error("Error starting game:", error));
+      );
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Failed to start the game", text);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Game started successfully", data);
+      navigate(`/multiplayergame/play/${roomId}`);
+    } catch (error) {
+      console.error("Error starting game:", error);
+    }
   };
 
   const handleLeaveRoom = () => {

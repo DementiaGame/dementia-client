@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./InitialGameQuestions.css";
 import { FaTimes } from "react-icons/fa";
 import SpeechRecognition, {
@@ -12,11 +12,9 @@ import AnswerInputs from "./AnswerInputs";
 import InputModal from "./InputModal";
 import AnswerResultModal from "./AnswerResultModal";
 import ResultModal from "./ResultModal";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../../recoil/userState"; // Recoil 상태 import
 
 const InitialGameQuestions = () => {
-  const { userIdx } = useRecoilValue(userState); // Recoil에서 userIdx 가져오기
+  const { userId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -107,7 +105,7 @@ const InitialGameQuestions = () => {
   const handleAnswer = async (givenAnswer) => {
     const currentQuestion = questions[currentQuestionIndex];
     const correct = await checkAnswer(
-      userIdx,
+      userId,
       currentQuestion.questionIdx,
       givenAnswer
     );
@@ -189,14 +187,14 @@ const InitialGameQuestions = () => {
 
   const closeResultModal = () => {
     setShowResultModal(false);
-    navigate("/");
+    navigate("/gamemain");
   };
 
   const continueGame = async () => {
     setShowResultModal(false);
     try {
       const response = await fetch(
-        `http://13.209.160.116:8080/api/initial/topics/${userIdx}/select-and-questions`,
+        `http://13.209.160.116:8080/api/initial/topics/${userId}/select-and-questions`,
         {
           method: "POST",
           headers: {
@@ -208,7 +206,7 @@ const InitialGameQuestions = () => {
       const data = await response.json();
       if (data.status === 200 && data.message === "SUCCESS") {
         // 주제 선택 성공, 새로운 질문으로 이동
-        navigate("/gamemain", {
+        navigate("/initialgame", {
           state: { questions: data.data.questions },
         });
       } else {
@@ -230,14 +228,18 @@ const InitialGameQuestions = () => {
   return (
     <div className="initial-game-questions">
       <header className="header">
-        <h1 className="title">143 초성게임({currentQuestion.topicName})</h1>
-        <button className="close-button" onClick={() => navigate("/")}>
+        <h1 className="title">
+          143 초성게임
+          {location.state?.selectedTopic?.topicName &&
+            `(${location.state.selectedTopic.topicName})`}
+        </h1>
+        <button className="close-button" onClick={() => navigate("/gamemain")}>
           <FaTimes />
         </button>
       </header>
       <main className="main">
         <QuestionBoard
-          topicName={currentQuestion.topicName}
+          topicName={location.state?.selectedTopic?.topicName} // 주제를 올바르게 전달
           consonantQuiz={currentQuestion?.consonantQuiz}
           timer={timer}
         />

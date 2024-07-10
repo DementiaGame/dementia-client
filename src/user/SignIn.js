@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./SignIn.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../recoil/userState"; // Recoil 상태 import
 
 const SignIn = () => {
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const setUserState = useSetRecoilState(userState); // Recoil 상태 설정
   const navigate = useNavigate();
 
   const handleSignIn = async (event) => {
@@ -23,11 +26,19 @@ const SignIn = () => {
       .post("http://13.209.160.116:8080/users/signin", signinForm)
       .then((response) => {
         console.log("Login success: " + response.data);
+        setUserState({
+          userIdx: response.data.data.userIdx,
+          // 다른 사용자 정보
+        });
         navigate("/gamemain");
       })
       .catch((error) => {
         console.log("Login failed: " + error);
       });
+  };
+
+  const handleBiometricAuth = () => {
+    navigate("/biometric-auth");
   };
 
   return (
@@ -67,7 +78,11 @@ const SignIn = () => {
           </div>
           <div className="signin-footer">
             <div className="input-group">
-              <button type="button" className="faceauth-btn">
+              <button
+                type="button"
+                className="faceauth-btn"
+                onClick={handleBiometricAuth}
+              >
                 생체 인증
               </button>
               <button type="submit" className="signin-btn">

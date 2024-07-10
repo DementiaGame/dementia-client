@@ -54,7 +54,7 @@ const InitialGame = () => {
   useEffect(() => {
     axios
       .get("http://13.209.160.116:8080/api/initial/topics", {
-        withCredentials: true, // 세션 쿠키를 전송하지 않음
+        withCredentials: true, // 세션 쿠키를 전송
       })
       .then((response) => {
         console.log("Data fetched successfully:", response.data);
@@ -109,6 +109,7 @@ const InitialGame = () => {
 
       navigate(`/questions/${userIdx}`, {
         state: { questions: response.data.data.questions },
+        selectedTopic: response.data,
       });
     } catch (error) {
       console.error(
